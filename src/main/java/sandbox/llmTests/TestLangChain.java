@@ -1,4 +1,4 @@
-package sandbox;
+package sandbox.llmTests;
 
 import dev.langchain4j.model.openai.OpenAiChatModel;
 

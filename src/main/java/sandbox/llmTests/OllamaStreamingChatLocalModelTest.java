@@ -1,4 +1,4 @@
-package sandbox;
+package sandbox.llmTests;
 
 //https://docs.langchain4j.dev/integrations/language-models/ollama/
 
