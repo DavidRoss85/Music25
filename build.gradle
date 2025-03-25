@@ -1,0 +1,105 @@
+plugins {
+// Build Java: https://docs.gradle.org/current/userguide/building_java_projects.html
+    id 'java'
+
+// https://docs.gradle.org/current/userguide/pmd_plugin.html#header
+    id 'pmd'
+
+// https://docs.gradle.org/current/userguide/jacoco_plugin.html
+    id 'jacoco'
+}
+
+group 'None'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+//    implementation 'com.assemblyai:assemblyai-java:ASSEMBLYAI_SDK_VERSION' //speech recognition
+    implementation 'dev.langchain4j:langchain4j-ollama:1.0.0-beta2' // ollama langchain
+//    implementation 'org.testcontainers:ollama:1.19.1'
+    implementation 'dev.langchain4j:langchain4j-open-ai:1.0.0-beta2'
+    implementation 'dev.langchain4j:langchain4j:1.0.0-beta2'
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+pmd {
+    ignoreFailures=true
+    pmdTest.enabled=false
+
+    consoleOutput = true
+    toolVersion = "7.0.0"
+    rulesMinimumPriority = 5
+    ruleSets = ["category/java/errorprone.xml",
+                "category/java/bestpractices.xml",
+                "category/java/codestyle.xml"]
+}
+
+javadoc {
+    doLast {
+        String fixedBuildDir = buildDir.toString().replace('\\', '/')
+        println "file:///$fixedBuildDir/docs/javadoc/index.html"
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.11"
+}
+
+jacocoTestReport {
+    reports {
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+    doLast {
+        String fixedBuildDir = buildDir.toString().replace('\\', '/')
+        println "file:///$fixedBuildDir/jacocoHtml/index.html"
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                // minimum percentage of code coverage
+                minimum = 0.2
+            }
+        }
+        rule {
+            enabled = false
+            element = 'CLASS'
+            includes = ['org.gradle.*']
+            limit {
+                counter = 'LINE'
+                value = 'TOTALCOUNT'
+                maximum = 0.3
+            }
+        }
+    }
+}
+
+// Fail the build if code coverage isn't high enough
+check.dependsOn jacocoTestCoverageVerification
+
+// Run code coverage after tests run
+jacocoTestReport.mustRunAfter test
+
+
+task doAll {
+    // Runs a java build. Imported from the java plugin
+    dependsOn build
+    // Runs all the tests. Imported from the java plugin.
+    dependsOn test
+    // Runs pmd. Imported by pmd plugin
+    dependsOn check
+    // Runs java doc. Imported from the java plugin
+    dependsOn javadoc
+    println 'all done!'
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
