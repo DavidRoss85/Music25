@@ -1,16 +1,13 @@
-package musics;
+package graphics.window;
 
-import graphics.G;
-import graphics.I;
-import graphics.WinApp;
-import java.awt.event.MouseWheelEvent;
-import reaction.*;
-import reaction.Shape;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import sounds.SimpleMidiPlayer;
+import java.awt.event.MouseWheelEvent;
+import reaction.Gesture;
+
+import audio.SimpleMidiPlayer;
 
 public class MusicEd extends WinApp {
 
