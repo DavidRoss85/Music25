@@ -8,17 +8,35 @@ import java.util.ArrayList;
 import config.UConstants;
 import graphics.interfaces.Show;
 
+/**
+ * Class for Ink which captures mouse input
+ */
 public class Ink implements Show, Serializable{
-    public static Buffer BUFFER = new Buffer();
-    public Norm norm;
-    public Box vs;
+    private static Buffer BUFFER = new Buffer();
+    private Norm norm;
+    private Box inkBounds;
+
+    /**
+     * Constructor for Ink
+     */
     public Ink(){
         norm=new Norm();
-        vs= BUFFER.bBox.getNewVS();
+        inkBounds = BUFFER.bBox.getNewVS();
+    }
+
+    /**
+     * Returns the current ink Buffer
+     * @return ink Buffer as {@code Buffer}
+     */
+    public static Buffer getBuffer(){
+        return BUFFER;
     }
 
     @Override
-    public void show(Graphics g) {g.setColor(UConstants.inkColor); norm.drawAt(g,vs);}
+    public void show(Graphics g) {
+        g.setColor(UConstants.inkColor);
+        norm.drawAt(g, inkBounds);
+    }
 
 
     //---------List-----------

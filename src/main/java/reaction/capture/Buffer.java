@@ -11,7 +11,7 @@ import java.awt.Graphics;
 public class Buffer extends PolyLine implements Show, Area {
 
   public static final int MAX = UConstants.inkBufferMax;
-  public int n; //Counter for the number of points
+  public int numPoints; //Counter for the number of points
   public BBox bBox = new BBox();
 
   /** Constructor */
@@ -20,13 +20,17 @@ public class Buffer extends PolyLine implements Show, Area {
   }
 
   /**
-   * Add a point to the array and increment n
+   * Add a point to the array and increment numPoints
    * Keep track of high and low bounds
    * @param x x coord
    * @param y y coord
    */
   public void add(int x, int y){
-    if(n<MAX){points[n++].set(x,y);bBox.add(x,y);}
+
+    if(numPoints <MAX){
+      points[numPoints++].set(x,y);
+      bBox.add(x,y);
+    }
   }
 
   /**
@@ -37,15 +41,18 @@ public class Buffer extends PolyLine implements Show, Area {
    */
   public void subSample(PolyLine pl){
     int k = pl.size();
-    for(int i=0;i<k;i++){pl.points[i].set(this.points[i*(n-1)/(k-1)]);}
+    for(int i=0;i<k;i++){
+      pl.points[i].set(this.points[i*(numPoints -1)/(k-1)]);
+    }
   }
 
   /**
    * Clears the buffer*/
-  public void clear(){n=0;}
+  public void clear(){
+    numPoints =0;}
 
   /** Show */
-  public void show(Graphics g){drawN(g,n);/*bBox.draw(g);*/}
+  public void show(Graphics g){drawN(g, numPoints);/*bBox.draw(g);*/}
 
   @Override
   public boolean hit(int x, int y) {return true;}

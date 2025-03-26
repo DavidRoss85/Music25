@@ -13,16 +13,16 @@ import java.io.Serializable;
  * N is the sample size, i.e. the number of points in the point line array
  * NCS is the drawing area*/
 public class Norm extends PolyLine implements Serializable {
-  public static final int N = UConstants.normSampleSize, MAX = UConstants.normCoordMax;
+  public static final int SAMPLE_SIZE = UConstants.normSampleSize, MAX = UConstants.normCoordMax;
   public static final Box NCS = new Box(0,0,MAX,MAX);
 
   /**
    * Constructor for Norm
    */
   public Norm(){
-    super(N);
-    Ink.BUFFER.subSample(this); //subsample the buffer and store in this
-    Vector.T.set(Ink.BUFFER.bBox,NCS);
+    super(SAMPLE_SIZE);
+    Ink.getBuffer().subSample(this); //subsample the buffer and store in this
+    Vector.TRANSFORM.set(Ink.getBuffer().bBox,NCS);
     transform();
   }
 
@@ -31,8 +31,8 @@ public class Norm extends PolyLine implements Serializable {
    * @param vs box dimensions to draw at
    */
   public void drawAt(Graphics g, Box vs){
-    Vector.T.set(NCS, vs);
-    for(int i=1;i<N;i++){
+    Vector.TRANSFORM.set(NCS, vs);
+    for(int i=1;i< SAMPLE_SIZE;i++){
       g.drawLine(
           points[i-1].transformX(),
           points[i-1].transformY(),
@@ -50,7 +50,7 @@ public class Norm extends PolyLine implements Serializable {
    */
   public int dist(Norm n){
     int res = 0;
-    for(int i=0;i<N;i++){
+    for(int i=0;i< SAMPLE_SIZE;i++){
       int dx = points[i].x - n.points[i].x;
       int dy = points[i].y - n.points[i].y;
       res+=dx*dx+dy*dy;
@@ -64,7 +64,7 @@ public class Norm extends PolyLine implements Serializable {
    * @param nBlend
    */
   public void blend(Norm norm, int nBlend){
-    for(int i=0;i<N;i++){
+    for(int i=0;i< SAMPLE_SIZE;i++){
       points[i].blend(norm.points[i],nBlend);
     }
   }

@@ -5,7 +5,7 @@ package graphics.elements;
 public class Transform{
 
   int dx, dy;
-  int n, d; //n and d represent a ratio old to new
+  int n, d; //numPoints and d represent a ratio old to new
 
   /**
    * Scales a rectangle while maintaining coords.
@@ -25,9 +25,9 @@ public class Transform{
   }
 
   /**
-   * Sets n to height or width of old values, whichever is larger.
+   * Sets numPoints to height or width of old values, whichever is larger.
    * Sets d to the height or width of new values, whichever is larger.
-   * Together n/d can determine scale
+   * Together numPoints/d can determine scale
    * @param oW old width
    * @param oH old height
    * @param nW new width
@@ -39,7 +39,7 @@ public class Transform{
   }
 
   /**
-   * When the object is scaled (Multiplied by n/d) the coordinate will
+   * When the object is scaled (Multiplied by numPoints/d) the coordinate will
    * increase or decrease accordingly. To keep the coordinate in the same place,
    * after scale, negate it and then add new coordinate
    * @param oX old coordinate

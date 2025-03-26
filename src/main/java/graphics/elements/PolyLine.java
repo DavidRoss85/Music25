@@ -29,7 +29,7 @@ public class PolyLine implements Serializable {
   }
 
   /**
-   * Connects points with lines to draw a shape/figure (up to n points).
+   * Connects points with lines to draw a shape/figure (up to numPoints points).
    * @param g graphic target to draw on as {@code Graphics}
    * @param n number of points to connect as {@code int}
    */
@@ -39,7 +39,7 @@ public class PolyLine implements Serializable {
     }
   }
   /**
-   * Connects points with lines to draw a shape/figure (up to n points).
+   * Connects points with lines to draw a shape/figure (up to numPoints points).
    * @param g graphic target to draw on as {@code Graphics}
    * @param n number of points to connect as {@code int}
    * @param color color to draw in as {@code Color}
@@ -56,7 +56,7 @@ public class PolyLine implements Serializable {
 
 
   /**
-   * Draws points in the collection onto a target (up to n points)
+   * Draws points in the collection onto a target (up to numPoints points)
    * @param g graphic target to draw on as {@code Graphics}
    * @param n number of points to draw as {@code int}
    */
@@ -65,7 +65,7 @@ public class PolyLine implements Serializable {
   }
 
   /**
-   * Draws points in the collection onto a target (up to n points)
+   * Draws points in the collection onto a target (up to numPoints points)
    * @param g graphic target to draw on as {@code Graphics}
    * @param n number of points to draw as {@code int}
    * @param color color to draw in as @{code Color}
