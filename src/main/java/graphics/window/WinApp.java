@@ -1,4 +1,4 @@
-package graphics;
+package graphics.window;
 
 /*
  * WinApp is both a JPanel which contains the paint proc and it is an
