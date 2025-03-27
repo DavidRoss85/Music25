@@ -85,7 +85,7 @@ public class PolyLine implements Serializable {
    */
   public void draw(Graphics g){drawN(g,points.length);}
 
-  /** Transform all points coords using Vectors's static TRANSFORMER object*/
+  /** Transform all points coords using Vector's static TRANSFORMER object*/
   public void transform(){
     for (Vector point : points) {
       point.setT(point);

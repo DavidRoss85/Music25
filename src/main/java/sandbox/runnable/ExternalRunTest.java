@@ -1,8 +1,7 @@
 package sandbox.runnable;
 
-import masses.Mass;
 import reaction.ActionContainer;
-import reaction.Gesture;
+import reaction.recognition.Gesture;
 
 public class ExternalRunTest {
 

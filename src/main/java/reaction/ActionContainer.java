@@ -1,6 +1,7 @@
 package reaction;
 
 import graphics.elements.Box;
+import reaction.recognition.Gesture;
 
 /**
  * Container to deliver the action to the Mass

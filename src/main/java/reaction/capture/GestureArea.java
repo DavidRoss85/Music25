@@ -1,6 +1,6 @@
 package reaction.capture;
 
-import reaction.Gesture;
+import reaction.recognition.Gesture;
 
 /**
  * Gesture Area captures the mouse actions in the window.
@@ -38,11 +38,12 @@ public class GestureArea implements Area{
     Gesture gest = Gesture.getNew(ink);
     Ink.getBuffer().clear();
 
-    recognized= gest==null?"NULL":gest.shape.name;
+    Gesture.setRecognized(gest);
 
     if(gest!=null){
-      if(gest.shape.name.equals("N-N")){
-        undo();
+      // MAKE A CALL TO THE ACTION HERE
+      if(gest.shape.getName().equals("N-N")){
+        gest.undo();
       }else{
         gest.doGesture();
       }

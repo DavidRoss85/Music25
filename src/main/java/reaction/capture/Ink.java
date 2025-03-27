@@ -14,15 +14,7 @@ import graphics.interfaces.Show;
 public class Ink implements Show, Serializable{
     private static Buffer BUFFER = new Buffer();
     private Norm norm;
-    private Box inkBounds;
-
-    /**
-     * Constructor for Ink
-     */
-    public Ink(){
-        norm=new Norm();
-        inkBounds = BUFFER.bBox.getNewBox();
-    }
+    private Box inkBox;
 
     /**
      * Returns the current ink Buffer
@@ -32,10 +24,29 @@ public class Ink implements Show, Serializable{
         return BUFFER;
     }
 
+    /**
+     * Constructor for Ink
+     */
+    public Ink(){
+        norm=new Norm();
+        inkBox = BUFFER.bBox.getNewBox();
+    }
+
+    public Box getBox(){
+        return inkBox;
+    }
+    /**
+     * Getter for Norm
+     * @return norm as Norm
+     */
+    public Norm getNorm(){
+        return norm;
+    }
+
     @Override
     public void show(Graphics g) {
         g.setColor(UConstants.inkColor);
-        norm.drawAt(g, inkBounds);
+        norm.drawAt(g, inkBox);
     }
 
 

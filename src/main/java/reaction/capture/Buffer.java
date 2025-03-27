@@ -58,10 +58,20 @@ public class Buffer extends PolyLine implements Show, Area {
 
   /** Clears the buffer and initialize bBox on mouse down*/
   @Override
-  public void cursorDown(int x, int y){clear();bBox.setBounds(x,y);add(x,y);}
+  public void cursorDown(int x, int y){
+    clear();
+    bBox.setBounds(x,y);
+    add(x,y);
+  }
+
   /** Adds points to the buffer as mouse drags*/
-  public void cursorDrag(int x, int y){add(x,y);}
+  @Override
+  public void cursorDrag(int x, int y){
+    add(x,y);
+  }
+
   /** Adds the final point to buffer on mouse up*/
+  @Override
   public void cursorUp(int x, int y){
     add(x,y);
   }

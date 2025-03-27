@@ -11,7 +11,7 @@
 //import graphics.drawing.G;
 //import graphics.drawing.Layer;
 //import reaction.capture.Area;
-//import reaction.Gesture;
+//import reaction.recognition.Gesture;
 //import reaction.capture.*;
 //
 //import audio.SimpleMidiPlayer;
