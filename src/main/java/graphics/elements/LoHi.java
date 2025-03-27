@@ -14,10 +14,10 @@ public class LoHi implements Serializable {
   }
 
   /**
-   * Set high and low to v
+   * Set high and low to vertical
    * @param v as {@code int}
    */
-  public void set(int v){
+  public void setBounds(int v){
     lo = v;
     hi = v;
   }
@@ -27,7 +27,7 @@ public class LoHi implements Serializable {
    * Compares if value is higher than hi or lower than lo and stores if it is
    * @param value new number as {@code int}
    */
-  public void add(int value){
+  public void adaptBounds(int value){
     if (value < lo) lo= value;
     if(value >hi) hi= value;
   }

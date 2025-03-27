@@ -26,7 +26,7 @@ import java.awt.event.MouseWheelListener;
 import javax.swing.*;
 
 /**
- * Creates a simple window to draw in
+ * Creates a simple window to drawBorders in
  */
 public class WinApp extends JPanel
     implements MouseListener, MouseMotionListener, KeyListener, MouseWheelListener {

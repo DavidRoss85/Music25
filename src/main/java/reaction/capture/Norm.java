@@ -8,11 +8,12 @@ import graphics.elements.Vector;
 import java.awt.Graphics;
 import java.io.Serializable;
 
-/** Nested class in Ink which extends a PL(Poly Line).
- * Stores the drawn shape in a subsampled version
- * N is the sample size, i.e. the number of points in the point line array
+/** Norm extends a Poly Line.
+ * Stores the drawn shape in a sub-sampled version.
+ * N is the sample size, i.e. the number of points in the point line array.
  * NCS is the drawing area*/
 public class Norm extends PolyLine implements Serializable {
+
   public static final int SAMPLE_SIZE = UConstants.normSampleSize, MAX = UConstants.normCoordMax;
   public static final Box NCS = new Box(0,0,MAX,MAX);
 
@@ -21,17 +22,18 @@ public class Norm extends PolyLine implements Serializable {
    */
   public Norm(){
     super(SAMPLE_SIZE);
-    Ink.getBuffer().subSample(this); //subsample the buffer and store in this
-    Vector.TRANSFORM.set(Ink.getBuffer().bBox,NCS);
-    transform();
+    Buffer buffer = Ink.getBuffer();
+    buffer.subSample(this); //subsample the buffer and store in this
+    Vector.TRANSFORMER.set(buffer.bBox, NCS);
+    this.transform();
   }
 
   /** Draws the norm at a target box location
    * @param g drawing surface
-   * @param vs box dimensions to draw at
+   * @param vs box dimensions to drawBorders at
    */
   public void drawAt(Graphics g, Box vs){
-    Vector.TRANSFORM.set(NCS, vs);
+    Vector.TRANSFORMER.set(NCS, vs);
     for(int i=1;i< SAMPLE_SIZE;i++){
       g.drawLine(
           points[i-1].transformX(),

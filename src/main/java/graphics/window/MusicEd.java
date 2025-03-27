@@ -10,7 +10,7 @@
 //import config.UConstants;
 //import graphics.drawing.G;
 //import graphics.drawing.Layer;
-//import graphics.interfaces.Area;
+//import reaction.capture.Area;
 //import reaction.Gesture;
 //import reaction.capture.*;
 //
@@ -88,13 +88,13 @@
 //            }
 //            if(ke.getKeyCode()==KeyEvent.VK_UP){
 //                PAGE.pageTop.setDv(
-//                    PAGE.pageTop.v()<= PAGE.margins.top ?
-//                        PAGE.pageTop.v()+SCROLL_SPEED
+//                    PAGE.pageTop.vertical()<= PAGE.margins.top ?
+//                        PAGE.pageTop.vertical()+SCROLL_SPEED
 //                        : PAGE.margins.top
 //                );
 //            }
 //            if(ke.getKeyCode()==KeyEvent.VK_DOWN){
-//                PAGE.pageTop.setDv(PAGE.pageTop.v()-SCROLL_SPEED);
+//                PAGE.pageTop.setDv(PAGE.pageTop.vertical()-SCROLL_SPEED);
 //            }
 //        }
 //        repaint();
@@ -105,8 +105,8 @@
 //        int amount=me.getWheelRotation();
 //        if(PAGE!=null){
 //            PAGE.pageTop.setDv(
-//                PAGE.pageTop.v()<= PAGE.margins.top ?
-//                    PAGE.pageTop.v()-(amount*SCROLL_SPEED)
+//                PAGE.pageTop.vertical()<= PAGE.margins.top ?
+//                    PAGE.pageTop.vertical()-(amount*SCROLL_SPEED)
 //                    : PAGE.margins.top
 //            );
 //        }
@@ -252,7 +252,7 @@
 //    /**
 //     * Calculate the duration of a note
 //     * @param head head object to reference
-//     * @param ppq current ppq set
+//     * @param ppq current ppq setBounds
 //     * @return duration of note as {@code int}
 //     */
 //    private int calculateDuration(Head head, int ppq){

@@ -3,7 +3,6 @@ package reaction.capture;
 import config.UConstants;
 import graphics.elements.BBox;
 import graphics.elements.PolyLine;
-import graphics.interfaces.Area;
 import graphics.interfaces.Show;
 import java.awt.Graphics;
 
@@ -15,7 +14,7 @@ public class Buffer extends PolyLine implements Show, Area {
   public BBox bBox = new BBox();
 
   /** Constructor */
-  public Buffer(){
+  protected Buffer(){
     super(MAX);
   }
 
@@ -29,7 +28,7 @@ public class Buffer extends PolyLine implements Show, Area {
 
     if(numPoints <MAX){
       points[numPoints++].set(x,y);
-      bBox.add(x,y);
+      bBox.adaptBounds(x,y);
     }
   }
 
@@ -52,14 +51,14 @@ public class Buffer extends PolyLine implements Show, Area {
     numPoints =0;}
 
   /** Show */
-  public void show(Graphics g){drawN(g, numPoints);/*bBox.draw(g);*/}
+  public void show(Graphics g){drawN(g, numPoints);/*bBox.drawBorders(g);*/}
 
   @Override
   public boolean hit(int x, int y) {return true;}
 
   /** Clears the buffer and initialize bBox on mouse down*/
   @Override
-  public void cursorDown(int x, int y){clear();bBox.set(x,y);add(x,y);}
+  public void cursorDown(int x, int y){clear();bBox.setBounds(x,y);add(x,y);}
   /** Adds points to the buffer as mouse drags*/
   public void cursorDrag(int x, int y){add(x,y);}
   /** Adds the final point to buffer on mouse up*/

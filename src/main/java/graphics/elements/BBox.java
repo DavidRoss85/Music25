@@ -5,18 +5,67 @@ import java.io.Serializable;
 
 /**Bounding box (Keeps track of the maximum bounds ie high and low coords)*/
 public class BBox implements Serializable {
-  public LoHi h, v; //horizontal and vertical
-  public BBox(){h=new LoHi(0,0);v=new LoHi(0,0);}
+
+  private LoHi horizontal, vertical; //horizontal and vertical
+
+  public BBox(){
+    horizontal =new LoHi(0,0);
+    vertical =new LoHi(0,0);
+  }
+
+  public LoHi getHorizontal() {
+    return horizontal;
+  }
+
+  public LoHi getVertical() {
+    return vertical;
+  }
 
   /**
    * Sets the initial high and low values for x and y
    * @param x as {@code int}
    * @param y as {@code int}
    */
-  public void set(int x, int y){h.set(x);v.set(y);}
+  public void setBounds(int x, int y){
+    horizontal.setBounds(x);
+    vertical.setBounds(y);}
 
-  public void add(int x, int y){h.add(x);v.add(y);}
-  public void add(Vector v){add(v.x,v.y);}
-  public Box getNewVS(){return new Box(h.lo, v.lo,h.hi-h.lo,v.hi-v.lo);}
-  public void draw(Graphics g){g.drawRect(h.lo,v.lo,h.hi-h.lo,v.hi-v.lo);}
+  /**
+   *Adapts bounds of bbox to include coordinate (highest/lowest values)
+   * @param x
+   * @param y
+   */
+  public void adaptBounds(int x, int y){
+    horizontal.adaptBounds(x);
+    vertical.adaptBounds(y);
+  }
+  public void adaptBounds(Vector v){
+    adaptBounds(v.x,v.y);
+  }
+
+  /**
+   * Generates a box based on the highest and lowest vertical and horizontal values
+   * @return new rectangular box as {@code Box}
+   */
+  public Box getNewBox(){
+    return new Box(
+        horizontal.lo,
+        vertical.lo,
+        horizontal.hi- horizontal.lo,
+        vertical.hi- vertical.lo
+    );
+  }
+
+  /**
+   * Draw box borders based on the highest and lowest vertical and horizontal values
+   * @param g graphics target
+   */
+  public void drawBorders(Graphics g){
+    g.drawRect(
+        horizontal.lo,
+        vertical.lo,
+        horizontal.hi- horizontal.lo,
+        vertical.hi- vertical.lo
+    );
+  }
 }

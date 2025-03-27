@@ -10,7 +10,7 @@ import java.io.Serializable;
  * size is a vector containing the width and height.
  */
 public class Box implements Serializable {
-  public Vector loc, size;
+  private Vector loc, size;
 
   /**
    * Constructor
@@ -20,13 +20,38 @@ public class Box implements Serializable {
    * @param h height
    */
   public Box(int x, int y, int w, int h){
-    loc = new Vector(x,y); size = new Vector(w,h);
+    loc = new Vector(x,y);
+    size = new Vector(w,h);
+  }
+
+  public int getX(){
+    return loc.x;
+  }
+
+  public int getY(){
+    return loc.y;
+  }
+
+  public int getWidth(){
+    return size.x;
+  }
+
+  public int getHeight(){
+    return size.y;
+  }
+
+  public Vector getSize(){
+    return size;
+  }
+
+  public Vector getLocation(){
+    return loc;
   }
 
   /**
    * Draws a filled rectangle onto {@code g} in color {@code c}
-   * @param g grahics object to draw onto as {@code Graphics}
-   * @param c color to draw in as {@code Color}
+   * @param g grahics object to drawBorders onto as {@code Graphics}
+   * @param c color to drawBorders in as {@code Color}
    */
   public void fill(Graphics g, Color c){
     g.setColor(c); g.fillRect(loc.x,loc.y,size.x,size.y);

@@ -1,4 +1,4 @@
-package graphics.interfaces;
+package reaction.capture;
 
 public interface Area {
 

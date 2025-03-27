@@ -21,7 +21,7 @@ public class Ink implements Show, Serializable{
      */
     public Ink(){
         norm=new Norm();
-        inkBounds = BUFFER.bBox.getNewVS();
+        inkBounds = BUFFER.bBox.getNewBox();
     }
 
     /**

@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  *Poly Line Object is a collection of points
- * that we can use to draw various shapes or lines.
+ * that we can use to drawBorders various shapes or lines.
  * Each point is an object of type V which contains an x, and y coord.
  */
 public class PolyLine implements Serializable {
@@ -29,8 +29,8 @@ public class PolyLine implements Serializable {
   }
 
   /**
-   * Connects points with lines to draw a shape/figure (up to numPoints points).
-   * @param g graphic target to draw on as {@code Graphics}
+   * Connects points with lines to drawBorders a shape/figure (up to numPoints points).
+   * @param g graphic target to drawBorders on as {@code Graphics}
    * @param n number of points to connect as {@code int}
    */
   public void drawN(Graphics g, int n){
@@ -39,10 +39,10 @@ public class PolyLine implements Serializable {
     }
   }
   /**
-   * Connects points with lines to draw a shape/figure (up to numPoints points).
-   * @param g graphic target to draw on as {@code Graphics}
+   * Connects points with lines to drawBorders a shape/figure (up to numPoints points).
+   * @param g graphic target to drawBorders on as {@code Graphics}
    * @param n number of points to connect as {@code int}
-   * @param color color to draw in as {@code Color}
+   * @param color color to drawBorders in as {@code Color}
    */
   public void drawN(Graphics g, int n, Color color){
     Color oldColor = g.getColor();
@@ -57,8 +57,8 @@ public class PolyLine implements Serializable {
 
   /**
    * Draws points in the collection onto a target (up to numPoints points)
-   * @param g graphic target to draw on as {@code Graphics}
-   * @param n number of points to draw as {@code int}
+   * @param g graphic target to drawBorders on as {@code Graphics}
+   * @param n number of points to drawBorders as {@code int}
    */
   public void drawNDots(Graphics g, int n){
     for(int i=0;i<n;i++){g.drawOval(points[i].x-2,points[i].y-2,4,4);};
@@ -66,9 +66,9 @@ public class PolyLine implements Serializable {
 
   /**
    * Draws points in the collection onto a target (up to numPoints points)
-   * @param g graphic target to draw on as {@code Graphics}
-   * @param n number of points to draw as {@code int}
-   * @param color color to draw in as @{code Color}
+   * @param g graphic target to drawBorders on as {@code Graphics}
+   * @param n number of points to drawBorders as {@code int}
+   * @param color color to drawBorders in as @{code Color}
    */
   public void drawNDots(Graphics g, int n , Color color){
     Color oldColor = g.getColor();
@@ -80,11 +80,15 @@ public class PolyLine implements Serializable {
   }
 
   /**
-   * Connects points with lines to draw a shape/figure (All points).
-   * @param g graphic target to draw on as {@code Graphics}
+   * Connects points with lines to drawBorders a shape/figure (All points).
+   * @param g graphic target to drawBorders on as {@code Graphics}
    */
   public void draw(Graphics g){drawN(g,points.length);}
 
-  /** Transform all points coords by V's static T object*/
-  public void transform(){for(int i=0;i<points.length;i++){points[i].setT(points[i]);}}
+  /** Transform all points coords using Vectors's static TRANSFORMER object*/
+  public void transform(){
+    for (Vector point : points) {
+      point.setT(point);
+    }
+  }
 }

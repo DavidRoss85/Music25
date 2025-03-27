@@ -2,7 +2,7 @@ package graphics.elements;
 
 public class Vector {
 
-  public static Transform TRANSFORM = new Transform();
+  public static Transform TRANSFORMER = new Transform();
   public int x,y;
 
   /**
@@ -66,14 +66,14 @@ public class Vector {
    * @return transformed x coord
    */
   public int transformX(){
-    return x* TRANSFORM.n/ TRANSFORM.d+ TRANSFORM.dx;
+    return x* TRANSFORMER.getNewMax() / TRANSFORMER.getOldMax() + TRANSFORMER.getDeltaX();
   }
   /**
    * Transform y by T's scale
    * @return transformed y coord
    */
   public int transformY(){
-    return y* TRANSFORM.n/ TRANSFORM.d+ TRANSFORM.dy;
+    return y* TRANSFORMER.getNewMax() / TRANSFORMER.getOldMax() + TRANSFORMER.getDeltaY();
   }
 
 }
