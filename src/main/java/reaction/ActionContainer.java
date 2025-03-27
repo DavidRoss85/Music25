@@ -11,8 +11,10 @@ public class ActionContainer {
   private Gesture gesture;
   private String stringInfo;
   private Box box;
+  private String name;
 
-  public ActionContainer(Gesture gesture, String stringInfo){
+  public ActionContainer(String name, Gesture gesture, String stringInfo){
+    this.name = name;
     this.gesture = gesture;
     this.stringInfo = stringInfo;
     if(this.gesture == null){
@@ -20,7 +22,8 @@ public class ActionContainer {
     }
   }
 
-  public ActionContainer(Box box, String stringInfo){
+  public ActionContainer(String name, Box box, String stringInfo){
+    this.name = name;
     this.stringInfo = stringInfo;
     if(box == null){
       this.box = new Box(0,0,1,1);
@@ -30,7 +33,9 @@ public class ActionContainer {
   public Gesture getGesture() {
     return gesture;
   }
-
+  public String getName(){
+    return name;
+  }
   public String getStringInfo() {
     return stringInfo;
   }

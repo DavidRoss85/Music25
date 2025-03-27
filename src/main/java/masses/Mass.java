@@ -5,14 +5,12 @@ import reaction.Action;
 import reaction.ActionContainer;
 
 
-public class Mass {
+public abstract class Mass {
 
-  private HashMap<String, Action> actions = new HashMap<>(); //Stores all actions and pairs with a name
+  protected HashMap<String, Action> actions = new HashMap<>(); //Stores all actions and pairs with a name
 
 
-  public Mass() {
-
-  }
+  public Mass() {}
 
   public Action getAction(String action) {
     return actions.get(action);
@@ -20,10 +18,10 @@ public class Mass {
 
   /**
    * Searches the map of actions to find the appropriate action to take
-   * @param action name of the action to take
    * @param args container for details to pass to function
    */
-  public void doAction(String action, ActionContainer args) {
+  public void doAction(ActionContainer args) {
+    String action = args.getName();
     Action actionObj = getAction(action);
     if (actionObj != null) {
       actionObj.accept(args);
