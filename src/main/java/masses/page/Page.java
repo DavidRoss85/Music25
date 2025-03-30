@@ -1,5 +1,6 @@
 package masses.page;
 
+import config.UConstants;
 import graphics.elements.RelativeCoordinate;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -27,29 +28,21 @@ public class Page extends Mass {
     this.actions.put("ADD_NEW_STAFF",this::addNewStaff);
     this.actions.put("ADD_NEW_SYS",this::callAddNewSys);
 
+    // Move these into a settings function later:
     this.gestureToActions.put("W-W","ADD_NEW_STAFF");
     this.gestureToActions.put("W-E","ADD_NEW_SYS");
 
-//    addReaction(new Reaction("W-W"){ //This is adding a new staff to first system
-//      public int bid(Gesture g){
-//        if(sysList.size()!=1){return UC.noBid;}
-//        Sys sys = sysList.get(0);
-//        int y = g.vs.yM();
-//        if(y<sys.yBot()+UC.minStaffGap){return UC.noBid;}
-//        return 1000;
-//      }
-//      public void act(Gesture g){sysList.get(0).addNewStaff(g.vs.yM());}
-//    });
-//
-//    addReaction(new Reaction("W-E") {
-//      public int bid(Gesture g) {
-//        Sys lastSys = sysList.get(sysList.size()-1);
-//        int y = g.vs.yM();
-//        if(y<lastSys.yBot()+UC.minSysGap){return UC.noBid;}
-//        return 1000;
-//      }
-//      public void act(Gesture g) {addNewSys(g.vs.yM());}
-//    });
+  }
+
+  @Override
+  public int bidOnGesture(Gesture g) {
+    // DEMO ONLY...
+    // REVISE THIS BIDDING SYSTEM
+    if(sysList.size()!=1){return UConstants.noBid;}
+        Sys sys = sysList.get(0);
+        int y = g.getBox().yM();
+        if(y<sys.yBot()+UConstants.minStaffGap){return UConstants.noBid;}
+        return 1000;
   }
 
   private void addNewStaff(ActionContainer args){
@@ -78,3 +71,26 @@ public class Page extends Mass {
   public void show(Graphics g){g.setColor(Color.BLACK);}
 
 }
+
+//*************************OLD BIDDING FOR REFERENCE **********************************
+
+//    addReaction(new Reaction("W-W"){ //This is adding a new staff to first system
+//      public int bid(Gesture g){
+//        if(sysList.size()!=1){return UC.noBid;}
+//        Sys sys = sysList.get(0);
+//        int y = g.vs.yM();
+//        if(y<sys.yBot()+UC.minStaffGap){return UC.noBid;}
+//        return 1000;
+//      }
+//      public void act(Gesture g){sysList.get(0).addNewStaff(g.vs.yM());}
+//    });
+//
+//    addReaction(new Reaction("W-E") {
+//      public int bid(Gesture g) {
+//        Sys lastSys = sysList.get(sysList.size()-1);
+//        int y = g.vs.yM();
+//        if(y<lastSys.yBot()+UC.minSysGap){return UC.noBid;}
+//        return 1000;
+//      }
+//      public void act(Gesture g) {addNewSys(g.vs.yM());}
+//    });

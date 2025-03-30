@@ -33,8 +33,8 @@ public class ReactionTest extends WinApp {
   public ReactionTest() {
     super("Reaction Test", UConstants.screenWidth, UConstants.screenHeight);
     page = new Page(100);
-    ActionContainer action = new ActionContainer("ADD_NEW_STAFF",new Box(1,200,10,10),"none");
-    page.doAction(action);
+//    ActionContainer action = new ActionContainer("ADD_NEW_STAFF",new Box(1,200,10,10),"none");
+//    page.doAction(action);
 //    page.doAction();
   }
 
