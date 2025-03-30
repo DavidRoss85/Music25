@@ -10,7 +10,7 @@ public class ActionContainer {
 
   private Gesture gesture;
   private String stringInfo;
-  private Box box;
+  private Box box = new Box(0,0,1,1);
   private String name;
   private Boolean redo = false; //Determines if this action comes from the user or the history
 
@@ -18,16 +18,16 @@ public class ActionContainer {
     this.name = name;
     this.gesture = gesture;
     this.stringInfo = stringInfo;
-    if(this.gesture == null){
-      this.box = new Box(0,0,1,1);
+    if(this.gesture != null) {
+      this.box = gesture.getBox();
     }
   }
 
   public ActionContainer(String name, Box box, String stringInfo){
     this.name = name;
     this.stringInfo = stringInfo;
-    if(box == null){
-      this.box = new Box(0,0,1,1);
+    if(this.gesture != null) {
+      this.box = gesture.getBox();
     }
   }
 

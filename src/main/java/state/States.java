@@ -1,6 +1,7 @@
 package state;
 
 import masses.Mass;
+import masses.MassList;
 
 public class States {
 

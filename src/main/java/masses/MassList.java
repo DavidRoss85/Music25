@@ -1,6 +1,5 @@
-package state;
+package masses;
 
-import masses.Mass;
 import reaction.recognition.Gesture;
 
 import java.util.ArrayList;
