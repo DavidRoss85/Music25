@@ -1,16 +1,20 @@
 package masses.sys;
 
+import config.UConstants;
 import graphics.elements.RelativeCoordinate;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import masses.Mass;
 import masses.page.Page;
+import masses.staff.Fmt;
+import masses.staff.Staff;
+import masses.staff.StaffList;
 
 public class Sys extends Mass {
   public Page page;
   public int iSys;
-//  public Staff.List staffs; //y coordinate hidden in this list
+  public StaffList staffs; //y coordinate hidden in this list
 //  public Time.List times;
 //  public Stem.List stems= new Stem.List();
 //  public Key initialKey = new Key();
@@ -99,13 +103,13 @@ public class Sys extends Mass {
 //
 //  public Time getTime(int x){return times.getTime(x);}
 //
-//  public void show(Graphics g){
-//    int x = page.margins.left;
-//    g.drawLine(x,yTop(),x,yBot());
-//    int xKey=x+UC.marginKeyOffset;
+  public void show(Graphics g){
+    int x = page.margins.left;
+    g.drawLine(x,yTop(),x,yBot());
+    int xKey=x+ UConstants.marginKeyOffset;
 //    initialKey.drawOnSys(g,this,xKey);
 //    showTimes(g);
-//  }
+  }
 //
 //  private void showTimes(Graphics g) {
 //    int n=1;
@@ -116,16 +120,16 @@ public class Sys extends Mass {
 //    g.setColor(Color.BLACK);
 //  }
 //
-//  public int yTop(){return staffs.sysTop();}
-//  public int yBot(){return staffs.get(staffs.size()-1).yBot();}
-//  public int height(){return yBot()-yTop();}
-//
-//  public void addNewStaff(int y){
-//    int off = y-staffs.sysTop();
-//    RelativeCoordinate staffTop = new RelativeCoordinate(staffs.sysTop,off);
-//    staffs.add(new Staff(this,staffs.size(),staffTop, new Staff.Fmt(5,8)));
-//    page.updateMaxH();
-//  }
+  public int yTop(){return staffs.sysTop();}
+  public int yBot(){return staffs.get(staffs.size()-1).yBot();}
+  public int height(){return yBot()-yTop();}
+
+  public void addNewStaff(int y){
+    int off = y-staffs.sysTop();
+    RelativeCoordinate staffTop = new RelativeCoordinate(staffs.sysTop,off);
+    staffs.add(new Staff(this,staffs.size(),staffTop, new Fmt(5,8)));
+    page.updateMaxH();
+  }
 
   //----------------------List---------------------------------
 //  public static class List extends ArrayList<Sys> {}
