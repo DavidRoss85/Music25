@@ -1,6 +1,8 @@
 package graphics.elements;
 
-public class Vector {
+import java.io.Serializable;
+
+public class Vector implements Serializable {
 
   public static Transform TRANSFORMER = new Transform();
   public int x,y;

@@ -12,7 +12,7 @@ import state.States;
  */
 public class GestureArea implements Area{
 
-  private String recognized = "NULL";
+  public static String recognized = "NULL";
 
   public GestureArea() {
   }
@@ -46,11 +46,9 @@ public class GestureArea implements Area{
     // Get the best bidder, map gesture to an action then execute action
     IMass itemToActOn = States.massList.returnBestBidder(gesture);
     if(itemToActOn != null) {
-      String actionName = itemToActOn.getActionFromGesture(gesture);
-      if(actionName != null) {
-        ActionContainer action = new ActionContainer(actionName,gesture,"gesture");
-        itemToActOn.doAction(action);
-      }
+      itemToActOn.reactOnGesture(gesture);
+    }else{
+      System.out.println("No item found for " + gesture);
     }
 
   }

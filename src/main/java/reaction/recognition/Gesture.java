@@ -6,8 +6,8 @@ public class Gesture {
 
 //  private static String recognized = "NULL";
 //  private static List UNDO = new List();
-  public Shape shape;
-  public Box box;
+  private Shape shape;
+  private Box box;
 
   /**
    * Constructor
@@ -17,6 +17,14 @@ public class Gesture {
   public Gesture(Shape shape, Box box){
     this.shape=shape;
     this.box = box;
+  }
+
+  public Shape getShape() {
+    return shape;
+  }
+
+  public Box getBox() {
+    return box;
   }
 }
 

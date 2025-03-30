@@ -2,8 +2,6 @@ package state;
 
 import java.util.ArrayList;
 import masses.Mass;
-import reaction.Action;
-import reaction.ActionContainer;
 
 public class History <T extends Mass>  {
 
