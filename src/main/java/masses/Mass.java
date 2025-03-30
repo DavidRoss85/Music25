@@ -1,5 +1,8 @@
 package masses;
 
+import graphics.drawing.Layer;
+import graphics.interfaces.Show;
+import java.awt.Graphics;
 import java.util.HashMap;
 import reaction.action.Action;
 import reaction.action.ActionContainer;
@@ -8,12 +11,19 @@ import state.ActionEntry;
 import state.States;
 
 
-public abstract class Mass implements IMass {
+public abstract class Mass implements IMass, Show {
 
   protected HashMap<String, Action> actions = new HashMap<>(); //Stores all actions and pairs with a name
   protected HashMap<String, String> gestureToActions = new HashMap<>();
+  protected Layer layer;
 
-  public Mass() {
+  public Mass(String layerName) {
+    layer = Layer.byName.get(layerName);
+    if (layer != null) {
+      layer.add(this);
+    }else{
+      System.out.println("Layer " + layerName + " not found");
+    }
     States.massList.add(this);
   }
 
@@ -71,4 +81,16 @@ public abstract class Mass implements IMass {
   private Action getAction(String action) {
     return actions.get(action);
   }
+
+  public void show(Graphics g) {}
+
+  //Keeping the code below in case bug shows up again:
+  //Fix a bug that shows up removing masses as I.Shows from layers
+//  private static int M = 1;
+//  private int hash = M++;
+//
+//  @Override
+//  public int hashCode(){return hash;}
+//  @Override
+//  public boolean equals(Object o){return this==o;}
 }

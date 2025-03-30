@@ -1,9 +1,8 @@
 package sandbox.massTests;
 
 import graphics.elements.Box;
-import masses.IMass;
 import masses.Mass;
-import masses.TestMass;
+import masses.testMass.TestMass;
 import reaction.recognition.Gesture;
 import reaction.recognition.Shape;
 import state.States;

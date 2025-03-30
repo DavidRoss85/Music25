@@ -8,7 +8,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import masses.TestMass;
+import masses.testMass.TestMass;
 import reaction.capture.GestureArea;
 import reaction.capture.Ink;
 import state.States;

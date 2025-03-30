@@ -1,8 +1,8 @@
 package sandbox.runnable;
 
 import graphics.elements.Box;
-import masses.TestMass;
-import masses.TestMass2;
+import masses.testMass.TestMass;
+import masses.testMass.TestMass2;
 import reaction.action.ActionContainer;
 import state.ActionEntry;
 import state.States;

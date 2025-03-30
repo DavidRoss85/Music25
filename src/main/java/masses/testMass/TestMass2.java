@@ -1,5 +1,6 @@
-package masses;
+package masses.testMass;
 
+import masses.Mass;
 import reaction.action.ActionContainer;
 
 public class TestMass2 extends Mass {
@@ -7,6 +8,7 @@ public class TestMass2 extends Mass {
   private String myString = "Just A demo";
 
   public TestMass2() {
+    super("FRONT");
     this.actions.put("WRITE",this::writeSomeText);
   }
 
