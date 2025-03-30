@@ -1,8 +1,8 @@
 package masses;
 
 import java.util.HashMap;
-import reaction.Action;
-import reaction.ActionContainer;
+import reaction.action.Action;
+import reaction.action.ActionContainer;
 import reaction.recognition.Gesture;
 import state.ActionEntry;
 import state.States;
@@ -23,8 +23,7 @@ public abstract class Mass implements IMass {
    * @return
    */
   public int bidOnGesture(Gesture gesture) {
-
-    return 0;
+    return 999999;
   }
 
 

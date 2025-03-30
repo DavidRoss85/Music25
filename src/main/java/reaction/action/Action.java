@@ -1,4 +1,4 @@
-package reaction;
+package reaction.action;
 
 /**
  * Functional interface for calling functions from Mass Hashmap

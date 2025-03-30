@@ -3,9 +3,7 @@ package sandbox.runnable;
 import graphics.elements.Box;
 import masses.TestMass;
 import masses.TestMass2;
-import reaction.ActionContainer;
-import reaction.recognition.Gesture;
-import reaction.recognition.Shape;
+import reaction.action.ActionContainer;
 import state.ActionEntry;
 import state.States;
 

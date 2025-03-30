@@ -1,7 +1,6 @@
 package masses;
 
-import reaction.Action;
-import reaction.ActionContainer;
+import reaction.action.ActionContainer;
 import reaction.recognition.Gesture;
 
 public interface IMass {

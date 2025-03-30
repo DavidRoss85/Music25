@@ -1,4 +1,4 @@
-package reaction;
+package reaction.action;
 
 import graphics.elements.Box;
 import reaction.recognition.Gesture;
@@ -12,7 +12,7 @@ public class ActionContainer {
   private String stringInfo;
   private Box box;
   private String name;
-  private Boolean redo = false;
+  private Boolean redo = false; //Determines if this action comes from the user or the history
 
   public ActionContainer(String name, Gesture gesture, String stringInfo){
     this.name = name;

@@ -1,11 +1,11 @@
 package state;
 
-import reaction.ActionContainer;
+import reaction.action.ActionContainer;
 
 /**
  * Action Entries contain different object types that actions are performed on.
  * Hence a generic type is used.
- * @param <T> Type of object which action can be peformed on
+ * @param <T> Type of object which action can be performed on
  */
 public class ActionEntry<T> {
   private ActionContainer action;

@@ -1,6 +1,6 @@
 package masses;
 
-import reaction.ActionContainer;
+import reaction.action.ActionContainer;
 
 public class TestMass2 extends Mass {
 
