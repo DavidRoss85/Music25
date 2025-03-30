@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import masses.Mass;
 import masses.MassList;
 import masses.sys.Sys;
+import reaction.action.ActionContainer;
+import reaction.recognition.Gesture;
 
 public class Page extends Mass {
   public Margins margins = new Margins();
@@ -21,6 +23,12 @@ public class Page extends Mass {
     RelativeCoordinate sysTop = new RelativeCoordinate(pageTop,0);
     sysList.add(new Sys(this,sysTop));
     updateMaxH();
+
+    this.actions.put("ADD_NEW_STAFF",this::addNewStaff);
+    this.actions.put("ADD_NEW_SYS",this::callAddNewSys);
+
+    this.gestureToActions.put("W-W","ADD_NEW_STAFF");
+    this.gestureToActions.put("W-E","ADD_NEW_SYS");
 
 //    addReaction(new Reaction("W-W"){ //This is adding a new staff to first system
 //      public int bid(Gesture g){
@@ -44,13 +52,23 @@ public class Page extends Mass {
 //    });
   }
 
+  private void addNewStaff(ActionContainer args){
+    int yLoc = args.getGesture().getBox().yM();
+    sysList.get(0).addNewStaff(yLoc);
+  }
+
+  private void callAddNewSys(ActionContainer args){
+    int yLoc = args.getGesture().getBox().yM();
+    this.addNewSys(yLoc);
+  }
+
   public void updateMaxH(){
     Sys sys=sysList.get(0);
     int newH = sys.staffs.get(sys.staffs.size()-1).fmt.H;
     if(maxH<newH){maxH=newH;}
   }
 
-  public void addNewSys(int y){ // called from page reaction so one sys EXISTS!!!
+  private void addNewSys(int y){ // called from page reaction so one sys EXISTS!!!
     int nSys = sysList.size(), sysHeight = sysList.get(0).height();
     if(nSys==1){sysGap=y-sysHeight-pageTop.v();}
     RelativeCoordinate sysTop = new RelativeCoordinate(pageTop,nSys*(sysHeight+sysGap));
