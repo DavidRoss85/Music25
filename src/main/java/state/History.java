@@ -11,6 +11,7 @@ public class History <T extends Mass>  {
   }
 
   public void add(ActionEntry<? extends T> entry) {
+    entry.getAction().setRedo(true);
     history.add(entry);
   }
 
@@ -18,5 +19,9 @@ public class History <T extends Mass>  {
     for (ActionEntry<? extends T> entry : history) {
       entry.getTarget().doAction(entry.getAction());
     }
+  }
+
+  public int size() {
+    return history.size();
   }
 }

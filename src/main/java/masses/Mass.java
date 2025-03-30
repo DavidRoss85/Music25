@@ -4,6 +4,7 @@ import java.util.HashMap;
 import reaction.Action;
 import reaction.ActionContainer;
 import reaction.recognition.Gesture;
+import state.ActionEntry;
 import state.States;
 
 
@@ -22,6 +23,7 @@ public abstract class Mass implements IMass {
    * @return
    */
   public int bidOnGesture(Gesture gesture) {
+
     return 0;
   }
 
@@ -35,12 +37,17 @@ public abstract class Mass implements IMass {
     Action actionObj = getAction(action);
     if (actionObj != null) {
       actionObj.accept(args);
+      if(!args.isRedo()) {
+        ActionEntry<? extends Mass> actionEntry = new ActionEntry<>(args, this);
+        States.actionHistory.add(actionEntry);
+      }
     }else{
       System.out.println("No such action: " + action);
     }
   }
 
   public void reactOnGesture(Gesture gesture) {
+    if(gesture==null) return;
     String actionName = getActionFromGesture(gesture);
     if(actionName != null) {
       ActionContainer action = new ActionContainer(actionName, gesture, gesture.getShape().getName());
@@ -56,8 +63,10 @@ public abstract class Mass implements IMass {
    * @return
    */
   private String getActionFromGesture(Gesture gesture) {
-
-    return gestureToActions.get(gesture.getShape().getName());
+    if(gesture!=null) {
+      return gestureToActions.get(gesture.getShape().getName());
+    }
+    return null;
   }
 
   private Action getAction(String action) {

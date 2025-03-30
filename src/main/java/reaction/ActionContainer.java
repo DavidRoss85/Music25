@@ -12,6 +12,7 @@ public class ActionContainer {
   private String stringInfo;
   private Box box;
   private String name;
+  private Boolean redo = false;
 
   public ActionContainer(String name, Gesture gesture, String stringInfo){
     this.name = name;
@@ -28,6 +29,14 @@ public class ActionContainer {
     if(box == null){
       this.box = new Box(0,0,1,1);
     }
+  }
+
+  public void setRedo(Boolean isRedo){
+    this.redo = isRedo;
+  }
+
+  public Boolean isRedo(){
+    return this.redo;
   }
 
   public Gesture getGesture() {
