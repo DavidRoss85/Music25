@@ -1,7 +1,11 @@
 package reaction.capture;
 
+import masses.IMass;
+import masses.Mass;
+import reaction.ActionContainer;
 import reaction.recognition.Gesture;
 import reaction.recognition.Shape;
+import state.States;
 
 /**
  * Gesture Area captures the mouse actions in the window.
@@ -39,16 +43,16 @@ public class GestureArea implements Area{
     Gesture gesture = createGesture(ink);
     Ink.getBuffer().clear();
 
-//    Gesture.setRecognized(gesture);
-//
-//    if(gesture !=null){
-//      // MAKE A CALL TO THE ACTION HERE
-//      if(gesture.shape.getName().equals("N-N")){
-//        gesture.undo();
-//      }else{
-//        gesture.doGesture();
-//      }
-//    }
+    // Get the best bidder, map gesture to an action then execute action
+    IMass itemToActOn = States.massList.returnBestBidder(gesture);
+    if(itemToActOn != null) {
+      String actionName = itemToActOn.getActionFromGesture(gesture);
+      if(actionName != null) {
+        ActionContainer action = new ActionContainer(actionName,gesture,"gesture");
+        itemToActOn.doAction(action);
+      }
+    }
+
   }
 
   private Gesture createGesture(Ink ink){
