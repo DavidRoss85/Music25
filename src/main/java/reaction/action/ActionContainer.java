@@ -26,9 +26,7 @@ public class ActionContainer {
   public ActionContainer(String name, Box box, String stringInfo){
     this.name = name;
     this.stringInfo = stringInfo;
-    if(this.gesture != null) {
-      this.box = gesture.getBox();
-    }
+    this.box = box;
   }
 
   public void setRedo(Boolean isRedo){

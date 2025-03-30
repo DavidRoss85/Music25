@@ -53,12 +53,12 @@ public class Page extends Mass {
   }
 
   private void addNewStaff(ActionContainer args){
-    int yLoc = args.getGesture().getBox().yM();
+    int yLoc = args.getBox().yM();
     sysList.get(0).addNewStaff(yLoc);
   }
 
   private void callAddNewSys(ActionContainer args){
-    int yLoc = args.getGesture().getBox().yM();
+    int yLoc = args.getBox().yM();
     this.addNewSys(yLoc);
   }
 

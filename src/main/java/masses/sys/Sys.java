@@ -23,17 +23,17 @@ public class Sys extends Mass {
     super("BACK");
     this.page=page;
     iSys=page.sysList.size();
-//    staffs=new Staff.List(sysTop);
+    staffs=new StaffList(sysTop);
 //    times=new Time.List(this);
-//    if(iSys==0){
-//      staffs.add(new Staff(this,0,new RelativeCoordinate(sysTop,0),new Staff.Fmt(5,8)));
-//    }else{
-//      Sys oldSys = page.sysList.get(0);
-//      for(Staff oldStaff: oldSys.staffs){
-//        Staff ns = oldStaff.copy(this);
-//        this.staffs.add(ns);
-//      }
-//    }
+    if(iSys==0){
+      staffs.add(new Staff(this,0,new RelativeCoordinate(sysTop,0),new Fmt(5,8)));
+    }else{
+      Sys oldSys = page.sysList.get(0);
+      for(Staff oldStaff: oldSys.staffs){
+        Staff ns = oldStaff.copy(this);
+        this.staffs.add(ns);
+      }
+    }
 
 //    addReaction(new Reaction("E-E") { // Beaming stems
 //      public int bid(Gesture g) {
