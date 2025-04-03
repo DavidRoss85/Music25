@@ -7,8 +7,7 @@ public class TestMass extends Mass {
 
   public TestMass() {
     super("FRONT");
-    this.actions.put("WRITE",this::writeSomeText);
-    this.gestureToActions.put("S-S","WRITE");
+    this.actions.put("WRITE", this::writeSomeText);
   }
 
   private void writeSomeText(ActionContainer args){

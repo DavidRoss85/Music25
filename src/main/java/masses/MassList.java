@@ -1,5 +1,7 @@
 package masses;
 
+import config.UConstants;
+import reaction.action.Reaction;
 import reaction.recognition.Gesture;
 
 import java.util.ArrayList;
@@ -13,14 +15,12 @@ public class MassList <T extends Mass> extends ArrayList<T> {
 
     public MassList() {}
 
-    public T returnBestBidder(Gesture gesture) {
-        int bestBid = 999999;
-        T bestBidder = null;
+    public Reaction returnBestBidder(Gesture gesture) {
+        Reaction bestBidder = Reaction.NO_REACTION;
         for(T item: this){
-            int bid = item.bidOnGesture(gesture);
-            if(bid < bestBid){
-                bestBid = bid;
-                bestBidder = item;
+            Reaction bidder = item.bidOnGesture(gesture);
+            if(bidder.getBid() < bestBidder.getBid()){
+                bestBidder = bidder;
             }
         }
         return bestBidder;

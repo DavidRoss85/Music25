@@ -1,6 +1,7 @@
 package reaction.capture;
 
 import masses.IMass;
+import reaction.action.Reaction;
 import reaction.recognition.Gesture;
 import reaction.recognition.Shape;
 import state.States;
@@ -42,9 +43,12 @@ public class GestureArea implements Area{
     Ink.getBuffer().clear();
 
     // Get the best bidder, map gesture to an action then execute action
-    IMass itemToActOn = States.massList.returnBestBidder(gesture);
-    if(itemToActOn != null) {
-      itemToActOn.reactOnGesture(gesture);
+    // Bidding should return a reaction which belongs to a specific object
+    // Reactions should be bound to actions within the Mass
+
+    Reaction bestReaction = States.massList.returnBestBidder(gesture);
+    if (bestReaction != null && bestReaction != Reaction.NO_REACTION) {
+      bestReaction.getOwner().doAction(bestReaction.getActionDetails());
     }else{
       System.out.println("No item found for " + gesture);
     }

@@ -4,50 +4,125 @@ import config.UConstants;
 import graphics.elements.RelativeCoordinate;
 import java.awt.Color;
 import java.awt.Graphics;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import masses.Mass;
 import masses.MassList;
 import masses.sys.Sys;
+
 import reaction.action.ActionContainer;
+import reaction.action.Reaction;
 import reaction.recognition.Gesture;
 
 public class Page extends Mass {
+
+  private static final String ADD_STAFF_TAG = "ADD_NEW_STAFF";
+  private static final String ADD_SYS_TAG = "ADD_NEW_SYS";
+
+  private static HashMap<String, ArrayList<String>> globalShapeToActionsMap = new HashMap<>();
+  static {
+    //Static to be accessed by all Page objects
+    //Add a function here that can load settings from configuration
+    globalShapeToActionsMap.put("W-W",new ArrayList<>(Arrays.asList(ADD_STAFF_TAG)));
+    globalShapeToActionsMap.put("W-E",new ArrayList<>(Arrays.asList(ADD_SYS_TAG)));
+
+  }
+
+
   public Margins margins = new Margins();
   public int sysGap;
   public RelativeCoordinate pageTop;
   public MassList<Sys> sysList = new MassList<>();
   public int maxH=0;
 
+
+
   public Page(int y){
     super("BACK");
-    margins.top=y;
-    pageTop=new RelativeCoordinate(RelativeCoordinate.ZERO,y);
+    margins.top = y;
+    pageTop = new RelativeCoordinate(RelativeCoordinate.ZERO,y);
     RelativeCoordinate sysTop = new RelativeCoordinate(pageTop,0);
     sysList.add(new Sys(this,sysTop));
     updateMaxH();
 
-    this.actions.put("ADD_NEW_STAFF",this::addNewStaff);
-    this.actions.put("ADD_NEW_SYS",this::callAddNewSys);
+    //Copy global settings. This allows using one universal bid function in Map class:
+    this.localShapeToActionsMap = globalShapeToActionsMap;
 
-    // Move these into a settings function later:
-    this.gestureToActions.put("W-W","ADD_NEW_STAFF");
-    this.gestureToActions.put("W-E","ADD_NEW_SYS");
 
+//    this.actions.put("ADD_NEW_STAFF",this::addNewStaff);
+//    this.actions.put("ADD_NEW_SYS",this::callAddNewSys);
+//
   }
 
-  @Override
-  public int bidOnGesture(Gesture g) {
-    // DEMO ONLY...
-    // REVISE THIS BIDDING SYSTEM
-    if(sysList.size()!=1){return UConstants.noBid;}
-        Sys sys = sysList.get(0);
-        int y = g.getBox().yM();
-        if(y<sys.yBot()+UConstants.minStaffGap){return UConstants.noBid;}
-        return 1000;
+//  @Override
+//  public Reaction bidOnGesture(Gesture g) {
+//    ArrayList<String> reactionsThatMatchShape = this.localShapeToActionsMap.get(g.getShape().getName());
+//    Reaction bestReaction = noReaction;
+//
+//    if(reactionsThatMatchShape!=null){ // null check
+//
+//      for (String item : reactionsThatMatchShape) {
+//        Reaction reaction = this.reactionMap.get(item);
+//
+//        if(reaction!=null){
+//          int bid = reaction.makeBid(g);
+//
+//          if(bid>bestReaction.getBid()){
+//            bestReaction = reaction;
+//          }
+//        }
+//      }
+//    }
+//    return bestReaction;
+//  }
+
+  /**
+   * Set up reactions for this object.
+   * Creates anonymous Reactions and adds them to this item's list of reactions.
+   * Gestures/Shapes can be mapped to these later
+   */
+  private void setUpReactions(){
+    this.reactionMap.put(ADD_STAFF_TAG, new Reaction(this,ADD_STAFF_TAG){
+
+      public int makeBid(Gesture gesture) {
+        this.setActionDetails(new ActionContainer(this.getActionName(),gesture,null));
+        if(sysList.size()!=1){
+          bid = UConstants.noBid;
+          return bid;
+        }
+        Sys sys = sysList.getFirst();
+        int y = gesture.getBox().yM();
+        if(y<sys.yBot()+UConstants.minStaffGap){
+          bid = UConstants.noBid;
+          return bid;
+        }
+        bid = 1000;
+        return bid;
+      }
+    });
+    this.reactionMap.put(ADD_SYS_TAG, new Reaction(this,ADD_SYS_TAG){
+      public int makeBid(Gesture gesture) {
+        this.setActionDetails(new ActionContainer(this.getActionName(),gesture,null));
+        Sys lastSys = sysList.getLast();
+        int y = gesture.getBox().yM();
+        if(y<lastSys.yBot()+UConstants.minSysGap){
+          bid = UConstants.noBid;
+          return bid;
+        }
+        bid = 1000;
+        return bid;
+      }
+    });
   }
+
+
+
 
   private void addNewStaff(ActionContainer args){
     int yLoc = args.getBox().yM();
-    sysList.get(0).addNewStaff(yLoc);
+    sysList.getFirst().addNewStaff(yLoc);
   }
 
   private void callAddNewSys(ActionContainer args){
@@ -56,13 +131,13 @@ public class Page extends Mass {
   }
 
   public void updateMaxH(){
-    Sys sys=sysList.get(0);
-    int newH = sys.staffs.get(sys.staffs.size()-1).fmt.H;
+    Sys sys=sysList.getFirst();
+    int newH = sys.staffs.getLast().fmt.H;
     if(maxH<newH){maxH=newH;}
   }
 
   private void addNewSys(int y){ // called from page reaction so one sys EXISTS!!!
-    int nSys = sysList.size(), sysHeight = sysList.get(0).height();
+    int nSys = sysList.size(), sysHeight = sysList.getFirst().height();
     if(nSys==1){sysGap=y-sysHeight-pageTop.v();}
     RelativeCoordinate sysTop = new RelativeCoordinate(pageTop,nSys*(sysHeight+sysGap));
     sysList.add(new Sys(this,sysTop));
@@ -71,26 +146,3 @@ public class Page extends Mass {
   public void show(Graphics g){g.setColor(Color.BLACK);}
 
 }
-
-//*************************OLD BIDDING FOR REFERENCE **********************************
-
-//    addReaction(new Reaction("W-W"){ //This is adding a new staff to first system
-//      public int bid(Gesture g){
-//        if(sysList.size()!=1){return UC.noBid;}
-//        Sys sys = sysList.get(0);
-//        int y = g.vs.yM();
-//        if(y<sys.yBot()+UC.minStaffGap){return UC.noBid;}
-//        return 1000;
-//      }
-//      public void act(Gesture g){sysList.get(0).addNewStaff(g.vs.yM());}
-//    });
-//
-//    addReaction(new Reaction("W-E") {
-//      public int bid(Gesture g) {
-//        Sys lastSys = sysList.get(sysList.size()-1);
-//        int y = g.vs.yM();
-//        if(y<lastSys.yBot()+UC.minSysGap){return UC.noBid;}
-//        return 1000;
-//      }
-//      public void act(Gesture g) {addNewSys(g.vs.yM());}
-//    });

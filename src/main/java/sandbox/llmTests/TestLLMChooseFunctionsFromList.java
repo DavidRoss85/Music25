@@ -25,15 +25,15 @@ class TestLLMChooseFunctionsFromList {
     functionDescriptions.put("LOWER", "Lowers the pitch of the selected note or group of notes by a predefined interval.");
     functionDescriptions.put("RAISE", "Raises the pitch of the selected note or group of notes by a predefined interval.");
     functionDescriptions.put("DELETE_NOTE", "Removes a specific note from the musical score sheet.");
-    functionDescriptions.put("UNDO", "Reverts the last performed action on the musical score sheet.");
-    functionDescriptions.put("REDO", "Restores the last undone action on the musical score sheet.");
+    functionDescriptions.put("UNDO", "Reverts the last performed actionName on the musical score sheet.");
+    functionDescriptions.put("REDO", "Restores the last undone actionName on the musical score sheet.");
     functionDescriptions.put("CHANGE_TEMPO", "Adjusts the speed of the musical score to a new beats-per-minute value.");
     functionDescriptions.put("APPLY_ARTICULATION", "Adds articulation marks to selected notes, such as staccato or legato.");
     functionDescriptions.put("TRANSPOSITION", "Shifts all notes in the score up or down by a given number of semitones.");
     functionDescriptions.put("EXPORT_PDF", "Exports the musical score as a PDF file for printing or sharing.");
     functionDescriptions.put("SAVE_PROJECT", "Saves the current musical score and all changes to a file.");
     functionDescriptions.put("PLAYBACK", "Plays the musical score using MIDI synthesis.");
-    functionDescriptions.put("FIND_NOTE", "Locate the specified note in the musical score sheet to perform actions on it. You must do this before you can take action on any note.");
+    functionDescriptions.put("FIND_NOTE", "Locate the specified note in the musical score sheet to perform actions on it. You must do this before you can take actionName on any note.");
     functionDescriptions.put("GET_ACTIONS", "Gets the list of actions available to the object.");
 
   }
@@ -69,7 +69,7 @@ class TestLLMChooseFunctionsFromList {
             You must choose the most appropriate function to execute from the list provide.
             Each response should look like:
             {FuncName: <Function name>, Parameters: <parameters>}
-            If there are multiple actions to perform, or one action that requires several actions to complete,
+            If there are multiple actions to perform, or one actionName that requires several actions to complete,
             split it up into several responses and place in brackets.
             For example:
             The request "Add Notes Happy Birthday (1-2) should yield the response
@@ -124,7 +124,7 @@ class TestLLMChooseFunctionsFromList {
 //        """
 //        You are an AI assistant that helps manage a musical score application.
 //        Your role is to interpret my requests and map them to the most relevant command from the predefined dictionary.
-//        When I describe an action I want to perform, you should select the best command that matches my intent and return it.
+//        When I describe an actionName I want to perform, you should select the best command that matches my intent and return it.
 //        Here are a list of the commands and their descriptions.:
 //        """;
         """

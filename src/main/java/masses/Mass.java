@@ -4,9 +4,11 @@ import config.UConstants;
 import graphics.drawing.Layer;
 import graphics.interfaces.Show;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.HashMap;
 import reaction.action.Action;
 import reaction.action.ActionContainer;
+import reaction.action.Reaction;
 import reaction.recognition.Gesture;
 import state.ActionEntry;
 import state.States;
@@ -15,7 +17,14 @@ import state.States;
 public abstract class Mass implements IMass, Show {
 
   protected HashMap<String, Action> actions = new HashMap<>(); //<Name, Function> map of actions
-  protected HashMap<String, String> gestureToActions = new HashMap<>(); // <Shape, Name> Map shape name to action name
+  protected HashMap<String, ArrayList<String>> localShapeToActionsMap = new HashMap<>(); // <Shape, Name> Map shape name to action name
+  protected HashMap<String,Reaction> reactionMap = new HashMap<>(); // List of all reactions
+
+//  protected static Reaction noReaction = new Reaction(null,null) {
+//    public int makeBid(Gesture gesture) {
+//      return UConstants.noBid;
+//    }
+//  };
   protected Layer layer;
 
   public Mass(String layerName) {
@@ -30,14 +39,28 @@ public abstract class Mass implements IMass, Show {
 
   /**
    * Bid on a gesture (Lower is better)
-   * @param gesture
-   * @return
+   * @param gesture Gesture object received from window
+   * @return winning reaction object {@code Reaction}
    */
-  public int bidOnGesture(Gesture gesture) {
-    if (gestureToActions.containsKey(gesture.getShape().getName())) {
-      return 0;
+  public Reaction bidOnGesture(Gesture gesture) {
+    ArrayList<String> reactionsThatMatchShape = this.localShapeToActionsMap.get(gesture.getShape().getName());
+    Reaction bestReaction = Reaction.NO_REACTION;
+
+    if(reactionsThatMatchShape!=null){ // null check
+
+      for (String item : reactionsThatMatchShape) {
+        Reaction reaction = this.reactionMap.get(item);
+
+        if(reaction!=null){
+          int bid = reaction.makeBid(gesture);
+
+          if(bid>bestReaction.getBid()){
+            bestReaction = reaction;
+          }
+        }
+      }
     }
-    return UConstants.noBid;
+    return bestReaction;
   }
 
 
@@ -59,34 +82,35 @@ public abstract class Mass implements IMass, Show {
     }
   }
 
-  public void reactOnGesture(Gesture gesture) {
-    if(gesture==null) return;
-    String actionName = getActionFromGesture(gesture);
-    if(actionName != null) {
-      ActionContainer action = new ActionContainer(actionName, gesture, gesture.getShape().getName());
-      this.doAction(action);
-    }else{
-      System.out.println("No action for gesture " + gesture.getShape().getName());
-    }
-  }
+//  public void reactOnGesture(Gesture gesture) {
+//    if(gesture==null) return;
+//    String actionName = getActionFromGesture(gesture);
+//    if(actionName != null) {
+//      ActionContainer action = new ActionContainer(actionName, gesture, gesture.getShape().getName());
+//      this.doAction(action);
+//    }else{
+//      System.out.println("No action for gesture " + gesture.getShape().getName());
+//    }
+//  }
 
-  /**
-   * Map gesture to an action
-   * @param gesture
-   * @return
-   */
-  private String getActionFromGesture(Gesture gesture) {
-    if(gesture!=null) {
-      return gestureToActions.get(gesture.getShape().getName());
-    }
-    return null;
-  }
+//  /**
+//   * Map gesture to an action
+//   * @param gesture
+//   * @return
+//   */
+//  private String getActionFromGesture(Gesture gesture) {
+//    if(gesture!=null) {
+//      return shapeToActionsMap.get(gesture.getShape().getName());
+//    }
+//    return null;
+//  }
 
   private Action getAction(String action) {
     return actions.get(action);
   }
 
   public void show(Graphics g) {}
+
 
   //Keeping the code below in case bug shows up again:
   //Fix a bug that shows up removing masses as I.Shows from layers

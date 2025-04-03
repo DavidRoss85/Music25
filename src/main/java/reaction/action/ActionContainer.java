@@ -1,12 +1,17 @@
 package reaction.action;
 
 import graphics.elements.Box;
+import graphics.interfaces.Act;
 import reaction.recognition.Gesture;
 
 /**
  * Container to deliver the action to the Mass
  */
 public class ActionContainer {
+
+  public static final ActionContainer EMPTY_ACTION = new ActionContainer(
+      null,Box.EMPTY_BOX,null
+  );
 
   private Gesture gesture;
   private String stringInfo;

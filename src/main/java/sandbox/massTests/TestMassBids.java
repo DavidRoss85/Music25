@@ -3,6 +3,7 @@ package sandbox.massTests;
 import graphics.elements.Box;
 import masses.Mass;
 import masses.testMass.TestMass;
+import reaction.action.Reaction;
 import reaction.recognition.Gesture;
 import reaction.recognition.Shape;
 import state.States;
@@ -13,7 +14,7 @@ public class TestMassBids {
 
         TestMass mass = new TestMass();
 
-        Mass bestBidder = States.massList.returnBestBidder(
+        Reaction bestBidder = States.massList.returnBestBidder(
                 new Gesture(
                         new Shape("A-A"),
                         new Box(1,1,1,1)

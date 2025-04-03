@@ -4,12 +4,16 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
 
+
 /**
  * Vector point plus width & height.
  * loc is a vector containing the location.
  * size is a vector containing the width and height.
  */
 public class Box implements Serializable {
+
+  public static final Box EMPTY_BOX = new Box(0,0,0,0);
+
   private Vector loc, size;
 
   /**
