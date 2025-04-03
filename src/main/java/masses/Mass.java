@@ -54,7 +54,7 @@ public abstract class Mass implements IMass, Show {
         if(reaction!=null){
           int bid = reaction.makeBid(gesture);
 
-          if(bid>bestReaction.getBid()){
+          if(bid<bestReaction.getBid()){
             bestReaction = reaction;
           }
         }

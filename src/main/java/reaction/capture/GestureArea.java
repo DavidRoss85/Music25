@@ -41,11 +41,12 @@ public class GestureArea implements Area{
     Ink ink = new Ink();
     Gesture gesture = createGesture(ink);
     Ink.getBuffer().clear();
+    if(gesture != null) return;
+
 
     // Get the best bidder, map gesture to an action then execute action
     // Bidding should return a reaction which belongs to a specific object
     // Reactions should be bound to actions within the Mass
-
     Reaction bestReaction = States.massList.returnBestBidder(gesture);
     if (bestReaction != null && bestReaction != Reaction.NO_REACTION) {
       bestReaction.getOwner().doAction(bestReaction.getActionDetails());

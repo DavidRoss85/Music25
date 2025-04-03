@@ -47,12 +47,13 @@ public class Page extends Mass {
     sysList.add(new Sys(this,sysTop));
     updateMaxH();
 
+    setUpActions();
+    setUpReactions();
     //Copy global settings. This allows using one universal bid function in Map class:
     this.localShapeToActionsMap = globalShapeToActionsMap;
 
 
-//    this.actions.put("ADD_NEW_STAFF",this::addNewStaff);
-//    this.actions.put("ADD_NEW_SYS",this::callAddNewSys);
+
 //
   }
 
@@ -77,6 +78,11 @@ public class Page extends Mass {
 //    }
 //    return bestReaction;
 //  }
+
+  private void setUpActions(){
+    this.actions.put("ADD_NEW_STAFF",this::addNewStaff);
+    this.actions.put("ADD_NEW_SYS",this::callAddNewSys);
+  }
 
   /**
    * Set up reactions for this object.
