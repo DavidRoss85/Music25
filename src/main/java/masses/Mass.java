@@ -1,5 +1,6 @@
 package masses;
 
+import config.UConstants;
 import graphics.drawing.Layer;
 import graphics.interfaces.Show;
 import java.awt.Graphics;
@@ -13,8 +14,8 @@ import state.States;
 
 public abstract class Mass implements IMass, Show {
 
-  protected HashMap<String, Action> actions = new HashMap<>(); //Stores all actions and pairs with a name
-  protected HashMap<String, String> gestureToActions = new HashMap<>();
+  protected HashMap<String, Action> actions = new HashMap<>(); //<Name, Function> map of actions
+  protected HashMap<String, String> gestureToActions = new HashMap<>(); // <Shape, Name> Map shape name to action name
   protected Layer layer;
 
   public Mass(String layerName) {
@@ -33,7 +34,10 @@ public abstract class Mass implements IMass, Show {
    * @return
    */
   public int bidOnGesture(Gesture gesture) {
-    return 999999;
+    if (gestureToActions.containsKey(gesture.getShape().getName())) {
+      return 0;
+    }
+    return UConstants.noBid;
   }
 
 
