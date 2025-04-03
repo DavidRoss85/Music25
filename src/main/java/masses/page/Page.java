@@ -53,31 +53,8 @@ public class Page extends Mass {
     this.localShapeToActionsMap = globalShapeToActionsMap;
 
 
-
-//
   }
 
-//  @Override
-//  public Reaction bidOnGesture(Gesture g) {
-//    ArrayList<String> reactionsThatMatchShape = this.localShapeToActionsMap.get(g.getShape().getName());
-//    Reaction bestReaction = noReaction;
-//
-//    if(reactionsThatMatchShape!=null){ // null check
-//
-//      for (String item : reactionsThatMatchShape) {
-//        Reaction reaction = this.reactionMap.get(item);
-//
-//        if(reaction!=null){
-//          int bid = reaction.makeBid(g);
-//
-//          if(bid>bestReaction.getBid()){
-//            bestReaction = reaction;
-//          }
-//        }
-//      }
-//    }
-//    return bestReaction;
-//  }
 
   private void setUpActions(){
     this.actions.put("ADD_NEW_STAFF",this::addNewStaff);

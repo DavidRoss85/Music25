@@ -1,17 +1,36 @@
 package masses.sys;
 
 import config.UConstants;
+import graphics.elements.Box;
 import graphics.elements.RelativeCoordinate;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import masses.Mass;
 import masses.page.Page;
 import masses.staff.Fmt;
 import masses.staff.Staff;
 import masses.staff.StaffList;
+import reaction.action.ActionContainer;
+import reaction.action.Reaction;
+import reaction.recognition.Gesture;
 
 public class Sys extends Mass {
+
+  private static final String BEAM_STEMS_TAG = "BEAM_STEMS_TAG";
+  private static final String INCREMENT_KEY_TAG = "INCREMENT_KEY";
+  private static final String DECREMENT_KEY_TAG = "DECREMENT_KEY";
+
+  private static HashMap<String, ArrayList<String>> globalShapeToActionsMap = new HashMap<>();
+  static {
+    //Static to be accessed by all Page objects
+    //Add a function here that can load settings from configuration
+    globalShapeToActionsMap.put("E-E",new ArrayList<>(Arrays.asList(BEAM_STEMS_TAG,INCREMENT_KEY_TAG)));
+    globalShapeToActionsMap.put("W-W",new ArrayList<>(Arrays.asList(INCREMENT_KEY_TAG)));
+
+  }
+
   public Page page;
   public int iSys;
   public StaffList staffs; //y coordinate hidden in this list
@@ -34,62 +53,98 @@ public class Sys extends Mass {
         this.staffs.add(ns);
       }
     }
-
-//    addReaction(new Reaction("E-E") { // Beaming stems
-//      public int bid(Gesture g) {
-//        int x1 = g.vs.xL(), y1=g.vs.yL(), x2=g.vs.xH(), y2=g.vs.yH();
-//        if(stems.fastReject((y1+y2)/2)){return UC.noBid;}
-//        ArrayList<Stem> temp = stems.allIntersectors(x1,y1,x2,y2);
-////                System.out.println("Sys E-E: " + temp.size());
-//        if(temp.size()<2){return UC.noBid;}
-//        Beam b=temp.get(0).beam;
-////                System.out.println("Sys E-E: Testing All beams, same owner ");
-//        for(Stem s: temp){if(s.beam!=b){return UC.noBid;}}
-////                System.out.println("Sys E-E: All beams, same owner " + b + " " + b==null);
-//        if(b==null && temp.size()!=2){return UC.noBid;}
-//        if(b==null && ((temp.get(0).nFlag!=0) || temp.get(1).nFlag!=0)){return UC.noBid;}
-//        return 50;
-//      }
-//      public void act(Gesture g) {
-//        int x1 = g.vs.xL(), y1=g.vs.yL(), x2=g.vs.xH(), y2=g.vs.yH();
-//        ArrayList<Stem> temp = stems.allIntersectors(x1,y1,x2,y2);
-//        Beam b = temp.get(0).beam;
-//        if(b==null){
-//          new Beam(temp.get(0),temp.get(1));
-//        }else{
-//          for(Stem s: temp){s.incFlag();}
-//        }
-//      }
-//    });
-//
-//    addReaction(new Reaction("E-E") { //increment initial key
-//      public int bid(Gesture g) {
-//        int x=page.margins.left;
-//        int x1=g.vs.xL(), x2=g.vs.xH();
-//        if(x1>x || x2<x){return UC.noBid;}
-//        int y=g.vs.yM();
-//        if(y<yTop() || y>yBot()){return UC.noBid;}
-//        return Math.abs(x-(x1+x2)/2);
-//      }
-//      public void act(Gesture g) {
-//        Sys.this.incKey();
-//      }
-//    });
-//
-//    addReaction(new Reaction("W-W") { //increment initial key
-//      public int bid(Gesture g) {
-//        int x=page.margins.left;
-//        int x1=g.vs.xL(), x2=g.vs.xH();
-//        if(x1>x || x2<x){return UC.noBid;}
-//        int y=g.vs.yM();
-//        if(y<yTop() || y>yBot()){return UC.noBid;}
-//        return Math.abs(x-(x1+x2)/2);
-//      }
-//      public void act(Gesture g) {
-//        Sys.this.decKey();
-//      }
-//    });
+    setUpActions();
+    setUpReactions();
   }
+
+  private void setUpActions(){
+    this.actions.put(BEAM_STEMS_TAG,this::beamStems);
+    this.actions.put(INCREMENT_KEY_TAG,this::incrementKey);
+    this.actions.put(DECREMENT_KEY_TAG,this::decrementKey);
+  }
+
+  private void setUpReactions(){
+    this.reactionMap.put(BEAM_STEMS_TAG, new Reaction(this,BEAM_STEMS_TAG){
+      @Override
+      public int makeBid(Gesture gesture) {
+        this.setActionDetails(new ActionContainer(this.getActionName(),gesture,null));
+        int x1 = gesture.getBox().xL(), y1=gesture.getBox().yL(), x2=gesture.getBox().xH(), y2=gesture.getBox().yH();
+//        if(stems.fastReject((y1+y2)/2)){
+//          bid = UConstants.noBid;
+//          return bid;
+//        }
+//        ArrayList<Stem> temp = stems.allIntersectors(x1,y1,x2,y2);
+//        if(temp.size()<2){return UConstants.noBid;}
+//        Beam b=temp.get(0).beam;
+//        for(Stem s: temp){if(s.beam!=b){return UConstants.noBid;}}
+//        if(b==null && temp.size()!=2){return UConstants.noBid;}
+//        if(b==null && ((temp.get(0).nFlag!=0) || temp.get(1).nFlag!=0)){
+//          bid = UConstants.noBid;
+//          return bid;
+//        }
+        bid = 50;
+        return bid;
+      }
+    });
+    this.reactionMap.put(INCREMENT_KEY_TAG, new Reaction(this,INCREMENT_KEY_TAG){
+      @Override
+      public int makeBid(Gesture gesture) {
+        this.setActionDetails(new ActionContainer(this.getActionName(),gesture,null));
+        int x = page.margins.left;
+        int x1=gesture.getBox().xL(), x2=gesture.getBox().xH();
+        if(x1>x || x2<x){
+          bid = UConstants.noBid;
+          return bid;
+        }
+        int y=gesture.getBox().yM();
+        if(y<yTop() || y>yBot()){
+          bid = UConstants.noBid;
+          return bid;
+        }
+        bid = Math.abs(x-(x1+x2)/2);
+        return bid;
+      }
+    });
+    this.reactionMap.put(DECREMENT_KEY_TAG, new Reaction(this,DECREMENT_KEY_TAG){
+      @Override
+      public int makeBid(Gesture gesture) {
+        int x = page.margins.left;
+        int x1=gesture.getBox().xL(), x2=gesture.getBox().xH();
+        if(x1>x || x2<x){
+          bid = UConstants.noBid;
+          return bid;
+        }
+        int y=gesture.getBox().yM();
+        if(y<yTop() || y>yBot()){
+          bid = UConstants.noBid;
+          return bid;
+        }
+        bid = Math.abs(x-(x1+x2)/2);
+        return bid;
+      }
+    });
+  }
+
+  private void beamStems(ActionContainer args){
+    Box g = args.getBox();
+    int x1 = g.xL(), y1=g.yL(), x2=g.xH(), y2=g.yH();
+//    ArrayList<Stem> temp = stems.allIntersectors(x1,y1,x2,y2);
+//    Beam b = temp.get(0).beam;
+//    if(b==null){
+//      new Beam(temp.get(0),temp.get(1));
+//    }else{
+//      for(Stem s: temp){s.incFlag();}
+//  }
+}
+
+  private void incrementKey(ActionContainer args){
+//    Sys.this.incKey();
+  }
+
+  private void decrementKey(ActionContainer args){
+    //Syst.this.decKey();
+  }
+
 
 //  private void decKey() {
 //    if(initialKey.n>-7){initialKey.n--;}
