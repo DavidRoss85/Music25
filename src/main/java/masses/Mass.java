@@ -22,11 +22,7 @@ public abstract class Mass implements IMass, Show {
   protected HashMap<String, ArrayList<String>> localShapeToActionsMap = new HashMap<>(); // <Shape, Name> Map shape name to action name
   protected HashMap<String,Reaction> reactionMap = new HashMap<>(); // List of all reactions
 
-//  protected static Reaction noReaction = new Reaction(null,null) {
-//    public int makeBid(Gesture gesture) {
-//      return UConstants.noBid;
-//    }
-//  };
+
   protected Layer layer;
 
   public Mass(String layerName) {

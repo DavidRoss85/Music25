@@ -4,8 +4,12 @@ import config.UConstants;
 import java.awt.Color;
 import java.awt.Graphics;
 import masses.Mass;
+import masses.accid.Accid;
 import masses.glyph.Glyph;
 import masses.staff.Staff;
+import masses.stem.Stem;
+import masses.time.Time;
+import reaction.action.ActionContainer;
 
 public class Head extends Mass implements Comparable<Head> {
 
@@ -129,13 +133,13 @@ public class Head extends Mass implements Comparable<Head> {
   // Suggestion: A hit-box for a gesture could be generated and then a calculation from the hit-box's midpoint could be used to
   // determine the dist.
 
-  public void deleteHead() {
+  public void deleteHead(ActionContainer args) {
     if (accid != null) {
-      accid.deleteAccid();
+      accid.deleteAccid(args);
     }
-    unStem();
+    unStem(args);
     time.heads.remove(this);
-    deleteMass();
+    deleteMass(args);
   }
 
   private void accidUp() {
@@ -205,11 +209,11 @@ public class Head extends Mass implements Comparable<Head> {
     g.setColor(Color.BLACK);
   }
 
-  public void unStem() {
+  public void unStem(ActionContainer args) {
     if (stem != null) {
       stem.heads.remove(this);
       if (stem.heads.size() == 0) {
-        stem.deleteStem();
+        stem.deleteStem(args);
       }
       stem = null;
       wrongSide = false;
@@ -218,7 +222,7 @@ public class Head extends Mass implements Comparable<Head> {
 
   public void joinStem(Stem s) {
     if (stem != null) {
-      unStem();
+      unStem(ActionContainer.EMPTY_ACTION); //FIX LATER
     }
     s.heads.add(this);
     stem = s;

@@ -3,6 +3,7 @@ package masses.sys;
 import config.UConstants;
 import graphics.elements.Box;
 import graphics.elements.RelativeCoordinate;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +13,9 @@ import masses.page.Page;
 import masses.staff.Fmt;
 import masses.staff.Staff;
 import masses.staff.StaffList;
+import masses.stem.StemList;
+import masses.time.Time;
+import masses.time.TimeList;
 import reaction.action.ActionContainer;
 import reaction.action.Reaction;
 import reaction.recognition.Gesture;
@@ -34,8 +38,8 @@ public class Sys extends Mass {
   public Page page;
   public int iSys;
   public StaffList staffs; //y coordinate hidden in this list
-//  public Time.List times;
-//  public Stem.List stems= new Stem.List();
+  public TimeList times;
+  public StemList stems= new StemList();
 //  public Key initialKey = new Key();
 
   public Sys(Page page, RelativeCoordinate sysTop){
@@ -155,25 +159,25 @@ public class Sys extends Mass {
 //    if(initialKey.n<7){initialKey.n++;}
 //    initialKey.glyph=initialKey.n>0?Glyph.SHARP:Glyph.FLAT;
 //  }
-//
-//  public Time getTime(int x){return times.getTime(x);}
-//
+
+  public Time getTime(int x){return times.getTime(x);}
+
   public void show(Graphics g){
     int x = page.margins.left;
     g.drawLine(x,yTop(),x,yBot());
     int xKey=x+ UConstants.marginKeyOffset;
 //    initialKey.drawOnSys(g,this,xKey);
-//    showTimes(g);
+    showTimes(g);
   }
-//
-//  private void showTimes(Graphics g) {
-//    int n=1;
-//    g.setColor(Color.LIGHT_GRAY);
-//    for(Time t: times){
-//      g.drawString("" + n++,t.x,yTop()-15);
-//    }
-//    g.setColor(Color.BLACK);
-//  }
+
+  private void showTimes(Graphics g) {
+    int n=1;
+    g.setColor(Color.LIGHT_GRAY);
+    for(Time t: times){
+      g.drawString("" + n++,t.x,yTop()-15);
+    }
+    g.setColor(Color.BLACK);
+  }
 //
   public int yTop(){return staffs.sysTop();}
   public int yBot(){return staffs.get(staffs.size()-1).yBot();}
@@ -186,7 +190,5 @@ public class Sys extends Mass {
     page.updateMaxH();
   }
 
-  //----------------------List---------------------------------
-//  public static class List extends ArrayList<Sys> {}
 
 }
