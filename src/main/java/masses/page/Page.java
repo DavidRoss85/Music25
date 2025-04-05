@@ -21,6 +21,8 @@ public class Page extends Mass {
   private static final String ADD_STAFF_TAG = "ADD_NEW_STAFF";
   private static final String ADD_SYS_TAG = "ADD_NEW_SYS";
 
+  //The purpose of this variable is to allow the bidOnGesture method in the Mass class to work using the localShapeToActionMap
+  // which this is copied to on construction.
   private static HashMap<String, ArrayList<String>> globalShapeToActionsMap = new HashMap<>();
   static {
     //Static to be accessed by all Page objects
