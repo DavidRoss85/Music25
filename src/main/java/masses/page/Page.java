@@ -52,7 +52,6 @@ public class Page extends Mass {
     //Copy global settings. This allows using one universal bid function in Map class:
     this.localShapeToActionsMap = globalShapeToActionsMap;
 
-
   }
 
 

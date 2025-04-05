@@ -9,10 +9,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import masses.Mass;
+import masses.beam.Beam;
 import masses.page.Page;
 import masses.staff.Fmt;
 import masses.staff.Staff;
 import masses.staff.StaffList;
+import masses.stem.Stem;
 import masses.stem.StemList;
 import masses.time.Time;
 import masses.time.TimeList;
@@ -47,7 +49,7 @@ public class Sys extends Mass {
     this.page=page;
     iSys=page.sysList.size();
     staffs=new StaffList(sysTop);
-//    times=new Time.List(this);
+    times=new TimeList(this);
     if(iSys==0){
       staffs.add(new Staff(this,0,new RelativeCoordinate(sysTop,0),new Fmt(5,8)));
     }else{
@@ -73,19 +75,30 @@ public class Sys extends Mass {
       public int makeBid(Gesture gesture) {
         this.setActionDetails(new ActionContainer(this.getActionName(),gesture,null));
         int x1 = gesture.getBox().xL(), y1=gesture.getBox().yL(), x2=gesture.getBox().xH(), y2=gesture.getBox().yH();
-//        if(stems.fastReject((y1+y2)/2)){
-//          bid = UConstants.noBid;
-//          return bid;
-//        }
-//        ArrayList<Stem> temp = stems.allIntersectors(x1,y1,x2,y2);
-//        if(temp.size()<2){return UConstants.noBid;}
-//        Beam b=temp.get(0).beam;
-//        for(Stem s: temp){if(s.beam!=b){return UConstants.noBid;}}
-//        if(b==null && temp.size()!=2){return UConstants.noBid;}
-//        if(b==null && ((temp.get(0).nFlag!=0) || temp.get(1).nFlag!=0)){
-//          bid = UConstants.noBid;
-//          return bid;
-//        }
+        if(stems.fastReject((y1+y2)/2)){
+          bid = UConstants.noBid;
+          return bid;
+        }
+        ArrayList<Stem> temp = stems.allIntersectors(x1,y1,x2,y2);
+        if(temp.size()<2){
+          bid = UConstants.noBid;
+          return bid;
+        }
+        Beam b=temp.get(0).beam;
+        for(Stem s: temp){
+          if(s.beam!=b){
+            bid = UConstants.noBid;
+            return bid;
+          }
+        }
+        if(b==null && temp.size()!=2){
+          bid = UConstants.noBid;
+          return bid;
+        }
+        if(b==null && ((temp.get(0).nFlag!=0) || temp.get(1).nFlag!=0)){
+          bid = UConstants.noBid;
+          return bid;
+        }
         bid = 50;
         return bid;
       }

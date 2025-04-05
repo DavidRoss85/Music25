@@ -41,7 +41,7 @@ public class GestureArea implements Area{
     Ink ink = new Ink();
     Gesture gesture = createGesture(ink);
     Ink.getBuffer().clear();
-    if(gesture != null) return;
+    if(gesture == null) return;
 
 
     // Get the best bidder, map gesture to an action then execute action

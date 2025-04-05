@@ -18,10 +18,11 @@ import state.States;
 
 public class ReactionTest extends WinApp {
 
-  static{
-    new Layer("BACK"); new Layer("FRONT");
-
-  }
+    static{ //static blocks will run before other code
+        new Layer("BACK");
+        new Layer("NOTE");
+        new Layer("FORE");
+    }
 
   private GestureArea drawArea = new GestureArea();
 

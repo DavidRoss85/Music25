@@ -156,7 +156,6 @@ public class Staff extends Mass {
    */
   private void setUpReactions(){
     this.reactionMap.put(ADD_HEAD_TAG, new Reaction(this, ADD_HEAD_TAG) { //add notes to staff
-
       public int makeBid(Gesture gesture) {
         this.setActionDetails(new ActionContainer(this.getActionName(),gesture,null));
         Page PAGE = sys.page;
@@ -246,24 +245,5 @@ public class Staff extends Mass {
     return ret;
   }
 
-  //---------------Fmt------------------------
-//  public static class Fmt{
-//    public static Fmt DEFAULT = new Fmt(5,8);
-//    public int nLines;
-//    public int H; // this is half the line space on the staff
-//    public boolean barContinues = false;
-//
-//    public Fmt(int nLines, int H){this.nLines=nLines;this.H=H;}
-//
-//    public void toggleBarContinues(){barContinues=!barContinues;}
-//  }
-
-  //-----------------List--------------------------
-//  public static class List extends ArrayList<Staff> {
-//    public RelativeCoordinate sysTop;
-//    public List(RelativeCoordinate sysTop){this.sysTop=sysTop;}
-//
-//    public int sysTop(){return sysTop.v();}
-//  }
 
 }
