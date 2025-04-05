@@ -3,6 +3,9 @@ package masses.head;
 import config.UConstants;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import masses.Mass;
 import masses.accid.Accid;
 import masses.glyph.Glyph;
@@ -10,8 +13,22 @@ import masses.staff.Staff;
 import masses.stem.Stem;
 import masses.time.Time;
 import reaction.action.ActionContainer;
+import reaction.action.Reaction;
+import reaction.recognition.Gesture;
 
 public class Head extends Mass implements Comparable<Head> {
+
+  private static final String ADD_STEM_TAG = "ADD_NEW_STEM";
+//  private static final String ADD_SYS_TAG = "ADD_NEW_SYS";
+
+  private static HashMap<String, ArrayList<String>> globalShapeToActionsMap = new HashMap<>();
+  static {
+    //Static to be accessed by all Page objects
+    //Add a function here that can load settings from configuration
+    globalShapeToActionsMap.put("S-S",new ArrayList<>(Arrays.asList(ADD_STEM_TAG)));
+//    globalShapeToActionsMap.put("W-E",new ArrayList<>(Arrays.asList(ADD_SYS_TAG)));
+
+  }
 
   public Staff staff;
   public int line;
@@ -28,41 +45,11 @@ public class Head extends Mass implements Comparable<Head> {
     line = staff.lineOfY(y);
     time.heads.add(this);
 
-//    addReaction(new Reaction("S-S") {
-//      public int bid(Gesture g) { //stem or unstem heads
-//        int x = g.vs.xM(), y1 = g.vs.yL(), y2 = g.vs.yH();
-//        int W = Head.this.w(), hY = Head.this.y();
-//        if (y1 > y || y2 < y) {
-//          return UC.noBid;
-//        }
-//        int hL = Head.this.time.x, hR = hL + W;
-//        if (x < hL - W || x > hR + W) {
-//          return UC.noBid;
-//        }
-//        if (x < hL + W / 2) {
-//          return hL - x;
-//        }
-//        if (x > hR - W / 2) {
-//          return x - hR;
-//        }
-//        return UC.noBid;
-//      }
-//
-//      public void act(Gesture g) {
-//        int x = g.vs.xM(), y1 = g.vs.yL(), y2 = g.vs.yH();
-//        Staff staff = Head.this.staff;
-//        Time t = Head.this.time;
-//        int W = Head.this.w();
-//        boolean up = x > t.x + W / 2;
-//        if (Head.this.stem == null) {
-//          //t.stemHeads(staff,up,y1,y2);
-//          Stem.getStem(staff, t, y1, y2, up);
-//        } else {
-//          t.unStemHeads(y1, y2);
-//        }
-//      }
-//    });
-//
+    setUpActions();
+    setUpReactions();
+    //Copy global settings. This allows using one universal bid function in Map class:
+    this.localShapeToActionsMap = globalShapeToActionsMap;
+
 //    addReaction(new Reaction("DOT") {
 //      @Override
 //      public int bid(Gesture g) {
@@ -121,17 +108,55 @@ public class Head extends Mass implements Comparable<Head> {
 //      }
 //    });
   }
-  //Notes:
-  // To move the reactions outside the constructor, we need a method that can dynamically assign a bid number
-  // the dimensions to react to as well as dynamically assign an action.
-  // In that case, every object class will define a set of actions that can be performed on it.
-  // There will need to be a generalized way of calculating where a gesture was made.
-  // This could be difficult, for example a "DOT" gesture only has an x,y coordinate while an
-  // E-E gesture has width. So there needs to be a way to calculate maybe the center or at least
-  // the desired area of operation for each type of gesture.
-  // In these examples dist is used ot determine the bid.
-  // Suggestion: A hit-box for a gesture could be generated and then a calculation from the hit-box's midpoint could be used to
-  // determine the dist.
+
+  public void setUpActions() {
+    this.actions.put(ADD_STEM_TAG,this::stemHead);
+  }
+
+  public void setUpReactions(){
+    this.reactionMap.put(ADD_STEM_TAG, new Reaction(this,ADD_STEM_TAG) {
+      public int makeBid(Gesture gesture) { //stem or unstem heads
+        this.setActionDetails(new ActionContainer(this.getActionName(),gesture,null));
+        int x = gesture.getBox().xM(), y1 = gesture.getBox().yL(), y2 = gesture.getBox().yH();
+        int W = Head.this.w(), hY = Head.this.y();
+        int y = staff.yOfLine(Head.this.line);
+        if (y1 > y || y2 < y) {
+          return UConstants.noBid;
+        }
+        int hL = Head.this.time.x, hR = hL + W;
+        if (x < hL - W || x > hR + W) {
+          bid = UConstants.noBid;
+          return bid;
+        }
+        if (x < hL + W / 2) {
+          bid = hL - x;
+          return bid;
+        }
+        if (x > hR - W / 2) {
+          bid = x - hR;
+          return bid;
+        }
+        bid = UConstants.noBid;
+        return bid;
+      }
+    });
+  }
+
+  private void stemHead(ActionContainer args) {
+
+    int x = args.getBox().xM(), y1 = args.getBox().yL(), y2 = args.getBox().yH();
+    Staff staff = Head.this.staff;
+    Time t = Head.this.time;
+    int W = Head.this.w();
+    boolean up = x > t.x + W / 2;
+    if (Head.this.stem == null) {
+      //t.stemHeads(staff,up,y1,y2);
+      Stem.getStem(staff, t, y1, y2, up);
+    } else {
+      t.unStemHeads(y1, y2);
+    }
+
+  }
 
   public void deleteHead(ActionContainer args) {
     if (accid != null) {
