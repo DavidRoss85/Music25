@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collections;
 import masses.Mass;
+import masses.MassList;
+import masses.clef.Clef;
 import masses.page.Margins;
 import masses.page.Page;
 import masses.sys.Sys;
@@ -15,7 +17,7 @@ public class Staff extends Mass {
   public int iStaff;
   public RelativeCoordinate staffTop;
   public Fmt fmt;
-//  public Clef.List clefs = null;
+  public MassList<Clef> clefs = null;
 
   public Staff(Sys sys, int iStaff, RelativeCoordinate staffTop, Fmt fmt){
     super("BACK");
