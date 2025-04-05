@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import masses.Mass;
 import masses.beam.Beam;
+import masses.glyph.Glyph;
+import masses.key.Key;
 import masses.page.Page;
 import masses.staff.Fmt;
 import masses.staff.Staff;
@@ -42,7 +44,7 @@ public class Sys extends Mass {
   public StaffList staffs; //y coordinate hidden in this list
   public TimeList times;
   public StemList stems= new StemList();
-//  public Key initialKey = new Key();
+  public Key initialKey = new Key();
 
   public Sys(Page page, RelativeCoordinate sysTop){
     super("BACK");
@@ -145,33 +147,33 @@ public class Sys extends Mass {
   private void beamStems(ActionContainer args){
     Box g = args.getBox();
     int x1 = g.xL(), y1=g.yL(), x2=g.xH(), y2=g.yH();
-//    ArrayList<Stem> temp = stems.allIntersectors(x1,y1,x2,y2);
-//    Beam b = temp.get(0).beam;
-//    if(b==null){
-//      new Beam(temp.get(0),temp.get(1));
-//    }else{
-//      for(Stem s: temp){s.incFlag();}
-//  }
+    ArrayList<Stem> temp = stems.allIntersectors(x1,y1,x2,y2);
+    Beam b = temp.get(0).beam;
+    if(b==null){
+      new Beam(temp.get(0),temp.get(1));
+    }else{
+      for(Stem s: temp){s.incFlag();}
+  }
 }
 
   private void incrementKey(ActionContainer args){
-//    Sys.this.incKey();
+    Sys.this.incKey();
   }
 
   private void decrementKey(ActionContainer args){
-    //Syst.this.decKey();
+    Sys.this.decKey();
   }
 
 
-//  private void decKey() {
-//    if(initialKey.n>-7){initialKey.n--;}
-//    initialKey.glyph=initialKey.n>0?Glyph.SHARP:Glyph.FLAT;
-//  }
-//
-//  private void incKey() {
-//    if(initialKey.n<7){initialKey.n++;}
-//    initialKey.glyph=initialKey.n>0?Glyph.SHARP:Glyph.FLAT;
-//  }
+  private void decKey() {
+    if(initialKey.n>-7){initialKey.n--;}
+    initialKey.glyph=initialKey.n>0? Glyph.SHARP:Glyph.FLAT;
+  }
+
+  private void incKey() {
+    if(initialKey.n<7){initialKey.n++;}
+    initialKey.glyph=initialKey.n>0?Glyph.SHARP:Glyph.FLAT;
+  }
 
   public Time getTime(int x){return times.getTime(x);}
 
