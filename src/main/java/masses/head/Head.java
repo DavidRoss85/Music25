@@ -24,98 +24,98 @@ public class Head extends Mass implements Comparable<Head> {
     line = staff.lineOfY(y);
     time.heads.add(this);
 
-    addReaction(new Reaction("S-S") {
-      public int bid(Gesture g) { //stem or unstem heads
-        int x = g.vs.xM(), y1 = g.vs.yL(), y2 = g.vs.yH();
-        int W = Head.this.w(), hY = Head.this.y();
-        if (y1 > y || y2 < y) {
-          return UC.noBid;
-        }
-        int hL = Head.this.time.x, hR = hL + W;
-        if (x < hL - W || x > hR + W) {
-          return UC.noBid;
-        }
-        if (x < hL + W / 2) {
-          return hL - x;
-        }
-        if (x > hR - W / 2) {
-          return x - hR;
-        }
-        return UC.noBid;
-      }
-
-      public void act(Gesture g) {
-        int x = g.vs.xM(), y1 = g.vs.yL(), y2 = g.vs.yH();
-        Staff staff = Head.this.staff;
-        Time t = Head.this.time;
-        int W = Head.this.w();
-        boolean up = x > t.x + W / 2;
-        if (Head.this.stem == null) {
-          //t.stemHeads(staff,up,y1,y2);
-          Stem.getStem(staff, t, y1, y2, up);
-        } else {
-          t.unStemHeads(y1, y2);
-        }
-      }
-    });
-
-    addReaction(new Reaction("DOT") {
-      @Override
-      public int bid(Gesture g) {
-        if (Head.this.stem == null) {
-          return UC.noBid;
-        }
-        int xH = x(), yH = y(), H = staff.fmt.H, W = w();
-        int x = g.vs.xM(), y = g.vs.yM();
-        if (x < xH || x > xH + 2 * W || y < yH - H || y > yH + H) {
-          return UC.noBid;
-        }
-        return Math.abs(xH + W - x) + Math.abs(yH - y);
-      }
-
-      public void act(Gesture g) {
-        Head.this.stem.cycleDot();
-      }
-    });
-
-    addReaction(new Reaction("NE-SE") { //up arrow raises sharp
-      public int bid(Gesture g) {
-        int x = g.vs.xM(), y = g.vs.yL();
-        int hX = Head.this.x() + Head.this.w() / 2, hY = Head.this.y();
-        int dX = Math.abs(x - hX), dY = Math.abs(y - hY), dist = dX + dY;
-        return dist > 50 ? UC.noBid : dist;
-      }
-
-      public void act(Gesture g) {
-        Head.this.accidUp();
-      }
-    });
-
-    addReaction(new Reaction("SE-NE") { //down arrow lowers sharp
-      public int bid(Gesture g) {
-        int x = g.vs.xM(), y = g.vs.yL();
-        int hX = Head.this.x() + Head.this.w() / 2, hY = Head.this.y();
-        int dX = Math.abs(x - hX), dY = Math.abs(y - hY), dist = dX + dY;
-        return dist > 50 ? UC.noBid : dist;
-      }
-
-      public void act(Gesture g) {
-        Head.this.accidDown();
-      }
-    });
-
-    addReaction(new Reaction("S-N") { //delete
-      public int bid(Gesture g) {
-        int x = g.vs.xM(), y = g.vs.yL();
-        int aX = Head.this.x() + Head.this.w() / 2, aY = Head.this.y();
-        int dX = Math.abs(x - aX), dY = Math.abs(y - aY), dist = dX + dY;
-        return dist > 50 ? UC.noBid : dist;
-      }
-
-      public void act(Gesture g) {
-        Head.this.deleteHead();
-      }
-    });
+//    addReaction(new Reaction("S-S") {
+//      public int bid(Gesture g) { //stem or unstem heads
+//        int x = g.vs.xM(), y1 = g.vs.yL(), y2 = g.vs.yH();
+//        int W = Head.this.w(), hY = Head.this.y();
+//        if (y1 > y || y2 < y) {
+//          return UC.noBid;
+//        }
+//        int hL = Head.this.time.x, hR = hL + W;
+//        if (x < hL - W || x > hR + W) {
+//          return UC.noBid;
+//        }
+//        if (x < hL + W / 2) {
+//          return hL - x;
+//        }
+//        if (x > hR - W / 2) {
+//          return x - hR;
+//        }
+//        return UC.noBid;
+//      }
+//
+//      public void act(Gesture g) {
+//        int x = g.vs.xM(), y1 = g.vs.yL(), y2 = g.vs.yH();
+//        Staff staff = Head.this.staff;
+//        Time t = Head.this.time;
+//        int W = Head.this.w();
+//        boolean up = x > t.x + W / 2;
+//        if (Head.this.stem == null) {
+//          //t.stemHeads(staff,up,y1,y2);
+//          Stem.getStem(staff, t, y1, y2, up);
+//        } else {
+//          t.unStemHeads(y1, y2);
+//        }
+//      }
+//    });
+//
+//    addReaction(new Reaction("DOT") {
+//      @Override
+//      public int bid(Gesture g) {
+//        if (Head.this.stem == null) {
+//          return UC.noBid;
+//        }
+//        int xH = x(), yH = y(), H = staff.fmt.H, W = w();
+//        int x = g.vs.xM(), y = g.vs.yM();
+//        if (x < xH || x > xH + 2 * W || y < yH - H || y > yH + H) {
+//          return UC.noBid;
+//        }
+//        return Math.abs(xH + W - x) + Math.abs(yH - y);
+//      }
+//
+//      public void act(Gesture g) {
+//        Head.this.stem.cycleDot();
+//      }
+//    });
+//
+//    addReaction(new Reaction("NE-SE") { //up arrow raises sharp
+//      public int bid(Gesture g) {
+//        int x = g.vs.xM(), y = g.vs.yL();
+//        int hX = Head.this.x() + Head.this.w() / 2, hY = Head.this.y();
+//        int dX = Math.abs(x - hX), dY = Math.abs(y - hY), dist = dX + dY;
+//        return dist > 50 ? UC.noBid : dist;
+//      }
+//
+//      public void act(Gesture g) {
+//        Head.this.accidUp();
+//      }
+//    });
+//
+//    addReaction(new Reaction("SE-NE") { //down arrow lowers sharp
+//      public int bid(Gesture g) {
+//        int x = g.vs.xM(), y = g.vs.yL();
+//        int hX = Head.this.x() + Head.this.w() / 2, hY = Head.this.y();
+//        int dX = Math.abs(x - hX), dY = Math.abs(y - hY), dist = dX + dY;
+//        return dist > 50 ? UC.noBid : dist;
+//      }
+//
+//      public void act(Gesture g) {
+//        Head.this.accidDown();
+//      }
+//    });
+//
+//    addReaction(new Reaction("S-N") { //delete
+//      public int bid(Gesture g) {
+//        int x = g.vs.xM(), y = g.vs.yL();
+//        int aX = Head.this.x() + Head.this.w() / 2, aY = Head.this.y();
+//        int dX = Math.abs(x - aX), dY = Math.abs(y - aY), dist = dX + dY;
+//        return dist > 50 ? UC.noBid : dist;
+//      }
+//
+//      public void act(Gesture g) {
+//        Head.this.deleteHead();
+//      }
+//    });
   }
   //Notes:
   // To move the reactions outside the constructor, we need a method that can dynamically assign a bid number
