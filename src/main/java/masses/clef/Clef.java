@@ -53,6 +53,7 @@ public class Clef extends Mass implements Comparable<Clef> {
     this.reactionMap.put(DELETE_TAG,new Reaction(this,DELETE_TAG) { //delete
 
       public int makeBid(Gesture gesture) {
+        this.setActionDetails(new ActionContainer(this.getActionName(),gesture,null));
         int x = gesture.getBox().xM(), y = gesture.getBox().yL();
         int aX = Clef.this.x + staff.fmt.H * 2, aY = staff.yOfLine(4);
         int dX = Math.abs(x - aX), dY = Math.abs(y - aY), dist = dX + dY;

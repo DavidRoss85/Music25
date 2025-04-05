@@ -4,15 +4,35 @@ import config.UConstants;
 import graphics.elements.RelativeCoordinate;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import masses.Mass;
 import masses.MassList;
 import masses.clef.Clef;
+import masses.glyph.Glyph;
+import masses.head.Head;
 import masses.page.Margins;
 import masses.page.Page;
 import masses.sys.Sys;
+import reaction.action.ActionContainer;
+import reaction.action.Reaction;
+import reaction.recognition.Gesture;
 
 public class Staff extends Mass {
+
+  private static final String ADD_HEAD_TAG = "ADD_NEW_HEAD";
+  private static final String ADD_BAR_TAG = "ADD_NEW_BAR";
+
+  private static HashMap<String, ArrayList<String>> globalShapeToActionsMap = new HashMap<>();
+  static {
+    //Static to be accessed by all Page objects
+    //Add a function here that can load settings from configuration
+    globalShapeToActionsMap.put("SW-SW",new ArrayList<>(Arrays.asList(ADD_HEAD_TAG)));
+    globalShapeToActionsMap.put("S-S",new ArrayList<>(Arrays.asList(ADD_BAR_TAG)));
+
+  }
+
   public Sys sys;
   public int iStaff;
   public RelativeCoordinate staffTop;
@@ -25,6 +45,11 @@ public class Staff extends Mass {
     this.iStaff=iStaff;
     this.staffTop=staffTop;
     this.fmt=fmt;
+
+    setUpActions();
+    setUpReactions();
+    //Copy global settings. This allows using one universal bid function in Map class:
+    this.localShapeToActionsMap = globalShapeToActionsMap;
 
 //    addReaction(new Reaction("S-S"){
 //      @Override
@@ -59,21 +84,6 @@ public class Staff extends Mass {
 //      }
 //    });
 //
-//    addReaction(new Reaction("SW-SW") { //add notes to staff
-//      @Override
-//      public int bid(Gesture g) {
-//        Page PAGE = sys.page;
-//        int x = g.vs.xM(), y = g.vs.yM();
-//        if(x<PAGE.margins.left || x>PAGE.margins.right){return UC.noBid;}
-//        int H = Staff.this.fmt.H, top = Staff.this.yTop()-H, bot=Staff.this.yBot()+H;
-//        if(y<top || y>bot){return UC.noBid;}
-//        return 10;
-//      }
-//      @Override
-//      public void act(Gesture g) {
-//        new Head(Staff.this,g.vs.xM(),g.vs.yM());
-//      }
-//    });
 //
 //    addReaction(new Reaction("W-S") { // Add Q rest
 //      public int bid(Gesture g) {
@@ -134,17 +144,57 @@ public class Staff extends Mass {
 //    });
   }
 
-//  public void setInitialClef(Glyph glyph) {
-//    Staff s = this, ps = prevStaff();
-//    while(ps!=null){s= ps; ps=s.prevStaff();}
-//    s.clefs = new Clef.List();
-//    s.clefs.add(new Clef(s,-900,glyph));
-//  }
-//  public void addNewClef(Glyph glyph, int x){
-//    if(clefs ==null){clefs=new Clef.List();}
-//    clefs.add(new Clef(this, x,glyph));
-//    Collections.sort(clefs);
-//  }
+  private void setUpActions(){
+    this.actions.put(ADD_HEAD_TAG,this::addNewHead);
+    this.actions.put(ADD_BAR_TAG, this::addNewBar);
+  }
+
+  /**
+   * Set up reactions for this object.
+   * Creates anonymous Reactions and adds them to this item's list of reactions.
+   * Gestures/Shapes can be mapped to these later
+   */
+  private void setUpReactions(){
+    this.reactionMap.put(ADD_HEAD_TAG, new Reaction(this, ADD_HEAD_TAG) { //add notes to staff
+
+      public int makeBid(Gesture gesture) {
+        this.setActionDetails(new ActionContainer(this.getActionName(),gesture,null));
+        Page PAGE = sys.page;
+        int x = gesture.getBox().xM(), y = gesture.getBox().yM();
+        if (x < PAGE.margins.left || x > PAGE.margins.right) {
+          bid = UConstants.noBid;
+          return bid;
+        }
+        int H = Staff.this.fmt.H, top = Staff.this.yTop() - H, bot = Staff.this.yBot() + H;
+        if (y < top || y > bot) {
+          bid = UConstants.noBid;
+          return bid;
+        }
+        bid = 10;
+        return bid;
+      }
+    });
+  }
+
+  public void addNewHead(ActionContainer args){
+    new Head(Staff.this,args.getBox().xM(),args.getBox().yM());
+  }
+  public void addNewBar(ActionContainer args){
+//    new Bar(Staff.this.sys,g.vs.xM());
+    System.out.println("Adding bar");
+  }
+
+  public void setInitialClef(Glyph glyph) {
+    Staff s = this, ps = prevStaff();
+    while(ps!=null){s= ps; ps=s.prevStaff();}
+    s.clefs = new MassList<Clef>();
+    s.clefs.add(new Clef(s,-900,glyph));
+  }
+  public void addNewClef(Glyph glyph, int x){
+    if(clefs ==null){clefs=new MassList<Clef>();}
+    clefs.add(new Clef(this, x,glyph));
+    Collections.sort(clefs);
+  }
 
   /*** Returns the hierarchical coordinate for the y top
    * @return coordinate as int*/
@@ -169,32 +219,32 @@ public class Staff extends Mass {
     for(int i=0;i<fmt.nLines;i++){
       g.drawLine(x1,y+i*h,x2,y+i*h);
     }
-//    Clef clef = initialClef();
-//    int x = sys.page.margins.left + UConstants.initialClefOffset;
-//    if(clef!=null){clef.glyph.showAt(g,fmt.H,x,yOfLine(4));}
+    Clef clef = initialClef();
+    int x = sys.page.margins.left + UConstants.initialClefOffset;
+    if(clef!=null){clef.glyph.showAt(g,fmt.H,x,yOfLine(4));}
   }
   public Staff prevStaff(){return sys.iSys==0? null: sys.page.sysList.get(sys.iSys-1).staffs.get(iStaff);}
 
-//  public Clef lastClef(){return clefs ==null? null:clefs.get(clefs.size()-1);}
-//  public Clef firstClef(){return clefs ==null? null:clefs.get(0);}
-//  public Clef initialClef(){
-//    Staff s = this, ps = prevStaff();
-//    while(ps!=null && ps.clefs==null){
-//      s=ps;
-//      ps=s.prevStaff();
-//    }
-//    return ps==null?s.firstClef():ps.lastClef();
-//  }
-//
-//  public Clef clefAtX(int x) {
-//    Clef iClef = initialClef();
-//    if (iClef==null){return null;}
-//    Clef ret = iClef;
-//    for(Clef clef: clefs){
-//      if(clef.x<x){ret=clef;}
-//    }
-//    return ret;
-//  }
+  public Clef lastClef(){return clefs ==null? null:clefs.get(clefs.size()-1);}
+  public Clef firstClef(){return clefs ==null? null:clefs.get(0);}
+  public Clef initialClef(){
+    Staff s = this, ps = prevStaff();
+    while(ps!=null && ps.clefs==null){
+      s=ps;
+      ps=s.prevStaff();
+    }
+    return ps==null?s.firstClef():ps.lastClef();
+  }
+
+  public Clef clefAtX(int x) {
+    Clef iClef = initialClef();
+    if (iClef==null){return null;}
+    Clef ret = iClef;
+    for(Clef clef: clefs){
+      if(clef.x<x){ret=clef;}
+    }
+    return ret;
+  }
 
   //---------------Fmt------------------------
 //  public static class Fmt{
