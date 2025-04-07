@@ -10,7 +10,9 @@ import java.awt.event.MouseWheelEvent;
 import config.UConstants;
 import graphics.drawing.G;
 import graphics.drawing.Layer;
+import java.util.ArrayList;
 import javax.swing.JTextField;
+import llm.LLMFeed;
 import masses.MassList;
 import masses.glyph.Glyph;
 import masses.head.Head;
@@ -19,6 +21,8 @@ import masses.page.Page;
 import masses.rest.Rest;
 import masses.sys.Sys;
 import masses.time.Time;
+import parser.JSONContainer;
+import parser.JSONParser;
 import reaction.action.Reaction;
 import reaction.capture.Area;
 import reaction.recognition.Gesture;
@@ -323,7 +327,19 @@ public class MusicEd extends WinApp {
         WinApp.launch();
     }
 
+    private static LLMFeed llmFeed = new LLMFeed();
     private static void testTextBox(String text){
-      System.out.println(text + " from MusicEd");
+
+      String objectsJSON = llmFeed.getObjectsJSON(text);
+      ArrayList<JSONContainer> jsonList = JSONParser.extractJSONCommands(objectsJSON);
+
+      for(JSONContainer json : jsonList){
+        String command = json.get("Rest");
+        if(command==null) continue;
+        String executeJSON = llmFeed.getExecuteJSON(command,UConstants.functionDescriptions);
+        System.out.println(executeJSON);
+
+      }
+
     }
 }

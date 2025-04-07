@@ -1,5 +1,10 @@
 package llm;
 
+
+//https://docs.langchain4j.dev/integrations/language-models/ollama/
+//Speech to text api/ Mozilla
+// Deep speech Music 21 Vex flow
+
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.ollama.OllamaChatModel;
 import java.util.HashMap;
@@ -19,6 +24,28 @@ public class LLMFeed {
         .baseUrl(base_URL)
         .modelName(modelName)
         .temperature(0.0)
+        .build();
+  }
+
+  public LLMFeed(Double temperature) {
+    if(temperature<0.0 || temperature>1.0) {
+      temperature = 0.0;
+    }
+    chatLanguageModel = OllamaChatModel.builder()
+        .baseUrl(base_URL)
+        .modelName(modelName)
+        .temperature(temperature)
+        .build();
+  }
+
+  public LLMFeed(String modelName, String base_URL, Double temperature) {
+    if(temperature<0.0 || temperature>1.0) {
+      temperature = 0.0;
+    }
+    chatLanguageModel = OllamaChatModel.builder()
+        .baseUrl(base_URL)
+        .modelName(modelName)
+        .temperature(temperature)
         .build();
   }
 
@@ -82,7 +109,7 @@ public class LLMFeed {
       commandString += key + ": " + commandList.get(key) + "\n";
     }
 
-    String inputText = inPrompt + PRE_TEXT + message + LAST_TEXT;
+    String inputText = inPrompt + commandString + PRE_TEXT + message + LAST_TEXT;
     String response = chatLanguageModel.chat(inputText);
     return response;
   }

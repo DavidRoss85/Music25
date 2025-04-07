@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 public class JSONParser {
 
-  private static ArrayList<JSONContainer> extractJSONCommands(String jsonString){
+  public static ArrayList<JSONContainer> extractJSONCommands(String jsonString){
 //    jsonString = "["
 //        + "{\"ObjectType\": \"Staff\", \"ObjectNo\": \"1\", \"Rest\": \"Add Note A\"},"
 //        + "{\"ObjectType\": \"Staff\", \"ObjectNo\": \"1\", \"Rest\": \"Add Note B\"},"
