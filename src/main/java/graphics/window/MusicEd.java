@@ -310,7 +310,7 @@ public class MusicEd extends WinApp {
     }
 
     public static void main(String[] args){
-      TextBox textField = new TextBox(20);
+      TextBox textField = new TextBox(40);
       textField.setTextFunc(MusicEd::testTextBox);
       PANEL= new MusicEd();
       PANEL.add(textField);
