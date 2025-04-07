@@ -10,6 +10,7 @@ import java.awt.event.MouseWheelEvent;
 import config.UConstants;
 import graphics.drawing.G;
 import graphics.drawing.Layer;
+import javax.swing.JTextField;
 import masses.MassList;
 import masses.glyph.Glyph;
 import masses.head.Head;
@@ -309,7 +310,10 @@ public class MusicEd extends WinApp {
     }
 
     public static void main(String[] args){
-        PANEL= new MusicEd();
+      TextBox textField = new TextBox(20);
+      textField.setTextFunc(MusicEd::testTextBox);
+      PANEL= new MusicEd();
+      PANEL.add(textField);
         try{
             midiPlayer = new SimpleMidiPlayer(1,16);
         }catch(Exception e){
@@ -317,5 +321,9 @@ public class MusicEd extends WinApp {
             System.out.println(e);
         }
         WinApp.launch();
+    }
+
+    private static void testTextBox(String text){
+      System.out.println(text + " from MusicEd");
     }
 }
