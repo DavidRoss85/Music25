@@ -248,4 +248,20 @@ public class Staff extends Mass {
   }
 
 
+
+
+  public static ArrayList<String > spliceNoteCode(String noteCode){
+    ArrayList<String> codes = new ArrayList<>(
+        Arrays.asList(noteCode.split("|"))
+    );
+    return codes;
+  }
+
+  public static int convertLetterToLine(String letter){
+    String noteScale = "FEDCBAG";
+    int loc = noteScale.indexOf(letter);
+
+    return loc==-1? 0: loc;
+  }
+
 }

@@ -20,6 +20,7 @@ import masses.head.Head;
 import masses.key.Key;
 import masses.page.Page;
 import masses.rest.Rest;
+import masses.staff.Staff;
 import masses.sys.Sys;
 import masses.time.Time;
 import parser.JSONContainer;
@@ -342,6 +343,7 @@ public class MusicEd extends WinApp {
 
       System.out.println(jsonList);
 
+      int x = 80;
       for(JSONContainer json : jsonList){
         String command = json.get("Rest");
         if(command==null) continue;
@@ -351,14 +353,19 @@ public class MusicEd extends WinApp {
         System.out.println(executeJSON);
 
         jsonList = JSONParser.extractJSONCommands(executeJSON);
+
         for(JSONContainer jsonComm : jsonList){
           System.out.println(jsonComm);
           if(jsonComm.get("FuncName").equals("ADD_NOTE")){
-            int x = G.rnd(919-89) + 89;
-            int y = G.rnd(107-40) + 40;
+            Staff theStaff = MusicEd.PAGE.sysList.getFirst().staffs.getFirst();
+            String note = Staff.spliceNoteCode(jsonComm.get("Parameters")).getFirst();
+            int y = Staff.convertLetterToLine(note);
+            y = theStaff.yOfLine(y);//G.rnd(919-89) + 89;
+            y-=7;
+            x += 30;//G.rnd(107-40) + 40;
             Box box = new Box(x,y,17,14);
             ActionContainer action = new ActionContainer("ADD_NEW_HEAD",box, null);
-            MusicEd.PAGE.sysList.getFirst().staffs.getFirst().doAction(action);
+            theStaff.doAction(action);
             PANEL.repaint();
           }
         }
