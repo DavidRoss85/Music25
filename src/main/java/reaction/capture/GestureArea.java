@@ -50,6 +50,9 @@ public class GestureArea implements Area{
     Reaction bestReaction = States.massList.returnBestBidder(gesture);
     if (bestReaction != null && bestReaction != Reaction.NO_REACTION) {
       bestReaction.getOwner().doAction(bestReaction.getActionDetails());
+      System.out.println(bestReaction.getActionDetails().getBox().getX() + " " + bestReaction.getActionDetails().getBox().getY() +
+          " " + bestReaction.getActionDetails().getBox().getWidth() + " " + bestReaction.getActionDetails().getBox().getHeight()
+          );
     }else{
       System.out.println("No item found for " + gesture);
     }

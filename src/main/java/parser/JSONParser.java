@@ -38,13 +38,20 @@ public class JSONParser {
     return JSONCommands;
   }
 
-  private static JSONContainer parseNode(JsonNode node){
+  private static JSONContainer parseNode(JsonNode node) throws Exception{
     Iterator<String> fieldNames = node.fieldNames();
     JSONContainer jsonContainer = new JSONContainer();
 
     while (fieldNames.hasNext()) {
       String fieldName = fieldNames.next();
-      jsonContainer.put(fieldName,node.get(fieldName).asText());
+      JsonNode fieldNode = node.get(fieldName);
+
+      if(!fieldNode.isTextual()){
+        ObjectMapper objectMapper = new ObjectMapper();
+        jsonContainer.put(fieldName, objectMapper.writeValueAsString(fieldNode)); //Throws Exception
+      } else{
+        jsonContainer.put(fieldName, fieldNode.asText());
+      }
     }
     return jsonContainer;
   }

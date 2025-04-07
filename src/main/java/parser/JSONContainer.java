@@ -10,7 +10,7 @@ public class JSONContainer extends HashMap<String,String>{
     StringBuffer sb = new StringBuffer();
 
     for(String key : this.keySet()){
-      sb.append(key+": "+this.get(key)+"\n");
+      sb.append(key+"(KEY): "+this.get(key) +"(VALUE)\n");
     }
     return sb.toString();
   }

@@ -1,6 +1,7 @@
 package graphics.window;
 
 
+import graphics.elements.Box;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -23,6 +24,7 @@ import masses.sys.Sys;
 import masses.time.Time;
 import parser.JSONContainer;
 import parser.JSONParser;
+import reaction.action.ActionContainer;
 import reaction.action.Reaction;
 import reaction.capture.Area;
 import reaction.recognition.Gesture;
@@ -331,17 +333,43 @@ public class MusicEd extends WinApp {
     private static void testTextBox(String text){
 
       String objectsJSON = llmFeed.getObjectsJSON(text);
+      System.out.println(objectsJSON);
+//      String executeJSON = llmFeed.getExecuteJSON(objectsJSON,UConstants.functionDescriptions);
+//      System.out.println(executeJSON);
+
       ArrayList<JSONContainer> jsonList = JSONParser.extractJSONCommands(objectsJSON);
       System.out.println("Objects List:");
+
       System.out.println(jsonList);
+
       for(JSONContainer json : jsonList){
         String command = json.get("Rest");
         if(command==null) continue;
-        String executeJSON = llmFeed.getExecuteJSON(command,UConstants.functionDescriptions);
-        jsonList = JSONParser.extractJSONCommands(executeJSON);
-        System.out.println(jsonList);
 
+        System.out.println("Execution List:");
+        String executeJSON = llmFeed.getExecuteJSON(command,UConstants.functionDescriptions);
+        System.out.println(executeJSON);
+
+        jsonList = JSONParser.extractJSONCommands(executeJSON);
+        for(JSONContainer jsonComm : jsonList){
+          System.out.println(jsonComm);
+          if(jsonComm.get("FuncName").equals("ADD_NOTE")){
+            int x = G.rnd(919-89) + 89;
+            int y = G.rnd(107-40) + 40;
+            Box box = new Box(x,y,17,14);
+            ActionContainer action = new ActionContainer("ADD_NEW_HEAD",box, null);
+            MusicEd.PAGE.sysList.getFirst().staffs.getFirst().doAction(action);
+            PANEL.repaint();
+          }
+        }
       }
+
+//      89 40 36 23
+//      311 74 17 14
+//      471 57 17 20
+//      556 100 34 34
+//      668 68 27 23
+//      919 107 33 30
 
     }
 }
