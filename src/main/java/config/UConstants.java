@@ -28,7 +28,11 @@ public class UConstants {
 
   public static HashMap<String, String> functionDescriptions = new HashMap<>();
   static {
-    functionDescriptions.put("ADD_NOTE", "Adds a new note head to the musical score sheet with the designated tone and length. The Parameters for this command are the note and the duration formatted {\"Note\": \"<Note>\", \"Duration\": \"<Length>\" }"); // Parameters should be in format {"Note": "<Note>", "Duration": "<Length>" }
+    functionDescriptions.put("ADD_NOTE", "Adds a new note head to the musical score sheet with the designated tone and length. "
+        + "The Parameters for this command are the note and the duration formatted as a single string separated by a | delimiter. \"<Note letter>|<Octave>|<Accidental>|<Duration>|<Dots>|<Extras> for example: A C# in the 4th Octave quarter note with 1 dot would be \"C|4|#|8|1|L\" "); // Parameters should be in format {"Note": "<Note>", "Duration": "<Length>" }
+    functionDescriptions.put("ADD_REST", "Adds a new rest period to the musical score sheet with the designated length. "
+        + "The Parameters for this command is the time period. for example: A quarter rest would b 8"); // Parameters should be in format {"Note": "<Note>", "Duration": "<Length>" }
+
     functionDescriptions.put("IMPORT_MUSIC", "Imports all or most of the notes from a song to the musical score sheet.");
     functionDescriptions.put("LOWER", "Lowers the pitch of the selected note or group of notes by a predefined interval.");
     functionDescriptions.put("RAISE", "Raises the pitch of the selected note or group of notes by a predefined interval.");

@@ -67,8 +67,8 @@ public class LLMFeed {
           For example:
           The request "I want to add 2 notes A and B" to the first staff should yield the response
           [
-            {"ObjectType": "Staff", "ObjectNo": "1", "Rest": "Add Note A"}
-            {"ObjectType": "Staff", "ObjectNo": "1", "Rest": "Add Note B"}
+            {"ObjectType": "Staff", "ObjectNo": "1", "Rest": "Add Note A with duration 8"}
+            {"ObjectType": "Staff", "ObjectNo": "1", "Rest": "Add Note B with duration 4"}
           ]
           If the user wants to add multiple notes from a song for instance, look up the notes for the song,
           then for each note create an object like the ones above.
