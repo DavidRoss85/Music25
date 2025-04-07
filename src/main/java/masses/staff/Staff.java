@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import masses.Mass;
 import masses.MassList;
+import masses.bar.Bar;
 import masses.clef.Clef;
 import masses.glyph.Glyph;
 import masses.head.Head;
@@ -179,8 +180,7 @@ public class Staff extends Mass {
     new Head(Staff.this,args.getBox().xM(),args.getBox().yM());
   }
   public void addNewBar(ActionContainer args){
-//    new Bar(Staff.this.sys,g.vs.xM());
-    System.out.println("Adding bar");
+    new Bar(Staff.this.sys, args.getBox().xM());
   }
 
   public void setInitialClef(Glyph glyph) {
@@ -194,6 +194,8 @@ public class Staff extends Mass {
     clefs.add(new Clef(this, x,glyph));
     Collections.sort(clefs);
   }
+
+
 
   /*** Returns the hierarchical coordinate for the y top
    * @return coordinate as int*/
