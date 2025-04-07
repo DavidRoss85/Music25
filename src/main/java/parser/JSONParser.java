@@ -24,7 +24,7 @@ public class JSONParser {
       JsonNode rootNode = objectMapper.readTree(jsonString);
 
 
-      // Iterate through JSON array and extract each item into MusicObject instances
+      // Iterate through JSON array and extract each item into JSONContainers
       for (JsonNode node : rootNode) {
 
         Iterator<String> fieldNames = node.fieldNames();
@@ -36,11 +36,6 @@ public class JSONParser {
         }
         JSONCommands.add(jsonContainer);
 
-//        String objectType = node.get("ObjectType").asText();
-//        int objectNo = node.get("ObjectNo").asInt();
-//        String rest = node.get("Rest").asText();
-
-//        JSONCommands.add(rest);
       }
 
     } catch (Exception e) {
@@ -50,7 +45,7 @@ public class JSONParser {
   }
 
   public static void main(String[] args) {
-
+  //Test
     ArrayList<JSONContainer> commands = JSONParser.extractJSONCommands("[{\"ObjectType\": \"Staff\"}]");
     for(JSONContainer command : commands){
       System.out.println(command);
