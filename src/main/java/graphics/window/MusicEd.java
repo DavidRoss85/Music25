@@ -332,12 +332,14 @@ public class MusicEd extends WinApp {
 
       String objectsJSON = llmFeed.getObjectsJSON(text);
       ArrayList<JSONContainer> jsonList = JSONParser.extractJSONCommands(objectsJSON);
-
+      System.out.println("Objects List:");
+      System.out.println(jsonList);
       for(JSONContainer json : jsonList){
         String command = json.get("Rest");
         if(command==null) continue;
         String executeJSON = llmFeed.getExecuteJSON(command,UConstants.functionDescriptions);
-        System.out.println(executeJSON);
+        jsonList = JSONParser.extractJSONCommands(executeJSON);
+        System.out.println(jsonList);
 
       }
 

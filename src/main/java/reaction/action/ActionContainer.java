@@ -18,6 +18,7 @@ public class ActionContainer {
   private Box box = new Box(0,0,1,1);
   private String name;
   private Boolean redo = false; //Determines if this action comes from the user or the history
+  private String actionType = "gesture";
 
   public ActionContainer(String name, Gesture gesture, String stringInfo){
     this.name = name;
@@ -40,6 +41,14 @@ public class ActionContainer {
 
   public Boolean isRedo(){
     return this.redo;
+  }
+
+  public void setActionType(String actionType){
+    this.actionType = actionType;
+  }
+
+  public String getActionType(){
+    return this.actionType;
   }
 
   public Gesture getGesture() {

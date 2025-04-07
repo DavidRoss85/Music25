@@ -91,7 +91,7 @@ public class LLMFeed {
             You will receive individual requests to perform on objects that have already been chosen.
             You must choose the most appropriate function to execute from the list provide.
             Each response should look like:
-            {FuncName: <Function name>, Parameters: <parameters>}
+            {"FuncName": <Function name>, "Parameters": <parameters>}
             If there are multiple actions to perform, or one actionName that requires several actions to complete,
             split it up into several responses and place in brackets.
             For example:

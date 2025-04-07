@@ -23,19 +23,13 @@ public class JSONParser {
       ObjectMapper objectMapper = new ObjectMapper();
       JsonNode rootNode = objectMapper.readTree(jsonString);
 
-
-      // Iterate through JSON array and extract each item into JSONContainers
-      for (JsonNode node : rootNode) {
-
-        Iterator<String> fieldNames = node.fieldNames();
-        JSONContainer jsonContainer = new JSONContainer();
-
-        while (fieldNames.hasNext()) {
-          String fieldName = fieldNames.next();
-          jsonContainer.put(fieldName,node.get(fieldName).asText());
+      if(rootNode.isArray()){
+        // Iterate through JSON array and extract each item into JSONContainers
+        for (JsonNode node : rootNode) {
+          JSONCommands.add(parseNode(node));
         }
-        JSONCommands.add(jsonContainer);
-
+      }else {
+        JSONCommands.add(parseNode(rootNode));
       }
 
     } catch (Exception e) {
@@ -43,6 +37,18 @@ public class JSONParser {
     }
     return JSONCommands;
   }
+
+  private static JSONContainer parseNode(JsonNode node){
+    Iterator<String> fieldNames = node.fieldNames();
+    JSONContainer jsonContainer = new JSONContainer();
+
+    while (fieldNames.hasNext()) {
+      String fieldName = fieldNames.next();
+      jsonContainer.put(fieldName,node.get(fieldName).asText());
+    }
+    return jsonContainer;
+  }
+
 
   public static void main(String[] args) {
   //Test
