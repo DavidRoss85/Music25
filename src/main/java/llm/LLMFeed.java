@@ -63,7 +63,8 @@ public class LLMFeed {
           Whenever you receive a comprehensive request, create a response in JSON format.
           Create one response for each object, and ensure each object has its own object.
           Each response should look like:
-          {ObjectType: <Object Type>, ObjectNo: <Object Number>, Rest: <The rest of the command specifying what to do with that object>}
+          {"ObjectType": "<Object Type>", "ObjectNo": "<Object Number>", "Rest": "<The rest of the command specifying what to do with that object>"}
+          Pay extra attention to the placement of the quotes around values. It must be placed correctly.
           For example:
           The request "I want to add 2 notes A and B" to the first staff should yield the response
           [

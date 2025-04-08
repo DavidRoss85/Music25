@@ -258,7 +258,9 @@ public class Staff extends Mass {
   }
 
   public static int convertLetterToLine(String letter){
-    String noteScale = "FEDCBAG";
+    ArrayList<String> noteScale = new ArrayList<>(
+        Arrays.asList("F","E","D","C","B","A","G")
+    );
     int loc = noteScale.indexOf(letter);
 
     return loc==-1? 0: loc;
