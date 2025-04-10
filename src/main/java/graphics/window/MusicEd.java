@@ -1,6 +1,7 @@
 package graphics.window;
 
 
+import chart.ChartStaff;
 import graphics.elements.Box;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -343,6 +344,8 @@ public class MusicEd extends WinApp {
 
       System.out.println(jsonList);
 
+
+
       int x = 80;
       for(JSONContainer json : jsonList){
         String command = json.get("Rest");
@@ -358,7 +361,7 @@ public class MusicEd extends WinApp {
           System.out.println(jsonComm);
           if(jsonComm.get("FuncName").equals("ADD_NOTE")){
             Staff theStaff = MusicEd.PAGE.sysList.getFirst().staffs.getFirst();
-            String note = Staff.spliceNoteCode(jsonComm.get("Parameters")).getFirst();
+            String note = JSONParser.spliceNoteCode(jsonComm.get("Parameters")).getFirst();
             int y = Staff.convertLetterToLine(note);
             y = theStaff.yOfLine(y);//G.rnd(919-89) + 89;
             y-=7;

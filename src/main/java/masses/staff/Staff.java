@@ -1,5 +1,6 @@
 package masses.staff;
 
+import chart.ChartStaff;
 import config.UConstants;
 import graphics.elements.RelativeCoordinate;
 import java.awt.Graphics;
@@ -39,6 +40,8 @@ public class Staff extends Mass {
   public RelativeCoordinate staffTop;
   public Fmt fmt;
   public MassList<Clef> clefs = null;
+  public ChartStaff chartStaff = null;
+
 
   public Staff(Sys sys, int iStaff, RelativeCoordinate staffTop, Fmt fmt){
     super("BACK");
@@ -46,6 +49,8 @@ public class Staff extends Mass {
     this.iStaff=iStaff;
     this.staffTop=staffTop;
     this.fmt=fmt;
+    this.chartStaff = new ChartStaff(this);
+    this.sys.chartSys.staffs.add(chartStaff);
 
     setUpActions();
     setUpReactions();
@@ -177,7 +182,8 @@ public class Staff extends Mass {
   }
 
   public void addNewHead(ActionContainer args){
-    new Head(Staff.this,args.getBox().xM(),args.getBox().yM());
+    Head theHead = new Head(Staff.this,args.getBox().xM(),args.getBox().yM());
+    this.chartStaff.addHead(theHead);
   }
   public void addNewBar(ActionContainer args){
     new Bar(Staff.this.sys, args.getBox().xM());
@@ -245,16 +251,6 @@ public class Staff extends Mass {
       if(clef.x<x){ret=clef;}
     }
     return ret;
-  }
-
-
-
-
-  public static ArrayList<String > spliceNoteCode(String noteCode){
-    ArrayList<String> codes = new ArrayList<>(
-        Arrays.asList(noteCode.split("|"))
-    );
-    return codes;
   }
 
   public static int convertLetterToLine(String letter){

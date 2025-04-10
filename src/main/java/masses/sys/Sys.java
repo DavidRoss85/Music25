@@ -1,5 +1,6 @@
 package masses.sys;
 
+import chart.ChartSys;
 import config.UConstants;
 import graphics.elements.Box;
 import graphics.elements.RelativeCoordinate;
@@ -45,6 +46,7 @@ public class Sys extends Mass {
   public TimeList times;
   public StemList stems= new StemList();
   public Key initialKey = new Key();
+  public ChartSys chartSys;
 
   public Sys(Page page, RelativeCoordinate sysTop){
     super("BACK");
@@ -61,6 +63,8 @@ public class Sys extends Mass {
         this.staffs.add(ns);
       }
     }
+    chartSys = new ChartSys(this);
+    page.chartPage.sysList.add(chartSys);
     setUpActions();
     setUpReactions();
   }

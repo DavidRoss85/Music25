@@ -1,5 +1,6 @@
 package masses.page;
 
+import chart.ChartPage;
 import config.UConstants;
 import graphics.elements.RelativeCoordinate;
 import java.awt.Color;
@@ -38,6 +39,7 @@ public class Page extends Mass {
   public RelativeCoordinate pageTop;
   public MassList<Sys> sysList = new MassList<>();
   public int maxH=0;
+  public ChartPage chartPage;
 
 
 
@@ -48,6 +50,7 @@ public class Page extends Mass {
     RelativeCoordinate sysTop = new RelativeCoordinate(pageTop,0);
     sysList.add(new Sys(this,sysTop));
     updateMaxH();
+    this.chartPage = new ChartPage();
 
     setUpActions();
     setUpReactions();

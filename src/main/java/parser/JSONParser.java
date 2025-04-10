@@ -3,6 +3,7 @@ package parser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class JSONParser {
@@ -55,6 +56,14 @@ public class JSONParser {
     }
     return jsonContainer;
   }
+
+  public static ArrayList<String > spliceNoteCode(String noteCode){
+    ArrayList<String> codes = new ArrayList<>(
+        Arrays.asList(noteCode.split("|"))
+    );
+    return codes;
+  }
+
 
 
   public static void main(String[] args) {
