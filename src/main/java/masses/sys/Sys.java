@@ -54,6 +54,10 @@ public class Sys extends Mass {
     iSys=page.sysList.size();
     staffs=new StaffList(sysTop);
     times=new TimeList(this);
+
+    chartSys = new ChartSys(this);
+    page.chartPage.sysList.add(chartSys);
+
     if(iSys==0){
       staffs.add(new Staff(this,0,new RelativeCoordinate(sysTop,0),new Fmt(5,8)));
     }else{
@@ -63,8 +67,6 @@ public class Sys extends Mass {
         this.staffs.add(ns);
       }
     }
-    chartSys = new ChartSys(this);
-    page.chartPage.sysList.add(chartSys);
     setUpActions();
     setUpReactions();
   }

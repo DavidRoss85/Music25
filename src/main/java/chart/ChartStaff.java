@@ -8,7 +8,7 @@ public class ChartStaff extends ChartMass{
 
   public ArrayList<ChartMeasure> measures = new ArrayList<>();
   private ArrayList<Head> headList = new ArrayList<>();
-  private Staff staff;
+  public Staff staff;
 
   public ChartStaff(Staff staff) {
     this.staff = staff;

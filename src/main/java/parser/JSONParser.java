@@ -59,11 +59,17 @@ public class JSONParser {
 
   public static ArrayList<String > spliceNoteCode(String noteCode){
     ArrayList<String> codes = new ArrayList<>(
-        Arrays.asList(noteCode.split("|"))
+        Arrays.asList(noteCode.split("\\|"))
     );
     return codes;
   }
 
+  public static ArrayList<String > spliceObjectNameAndNumber(String ObjectNumCombo){
+    ArrayList<String> objectNameAndNumberList = new ArrayList<>(
+        Arrays.asList(ObjectNumCombo.split("-"))
+    );
+    return objectNameAndNumberList;
+  }
 
 
   public static void main(String[] args) {

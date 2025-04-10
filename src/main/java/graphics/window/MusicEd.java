@@ -348,6 +348,24 @@ public class MusicEd extends WinApp {
 
       int x = 80;
       for(JSONContainer json : jsonList){
+
+        String theObject =  json.get("Object");
+        ArrayList<String> theObjectList = JSONParser.spliceNoteCode(theObject);
+        System.out.println(theObjectList);
+        for(String s : theObjectList){
+          ArrayList<String> objAndNum = JSONParser.spliceObjectNameAndNumber(s);
+          System.out.println(objAndNum);
+          //Function here that will use objAndNum to get  a particular object
+          if(objAndNum.getFirst().equals("Staff")){
+            int myValue = (Integer.parseInt(objAndNum.get(1))) -1;
+            Staff myStaff = MusicEd.PAGE.chartPage.sysList.getFirst().staffs.get(myValue).staff;
+            System.out.println(myStaff);
+          }
+        }
+
+
+        //--------------------------------------------
+
         String command = json.get("Rest");
         if(command==null) continue;
 
