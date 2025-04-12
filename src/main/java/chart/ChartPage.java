@@ -7,5 +7,7 @@ public class ChartPage {
   public ArrayList<ChartSys> sysList = new ArrayList<>();
   public Page page;
 
-  public ChartPage() {}
+  public ChartPage(Page page) {
+    this.page = page;
+  }
 }

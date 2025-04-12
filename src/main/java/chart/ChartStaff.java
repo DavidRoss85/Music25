@@ -23,6 +23,7 @@ public class ChartStaff extends ChartMass{
   }
 
   public Head getHead(int index) {
+    if(index > headList.size()-1) return null;
     return headList.get(index);
   }
 }

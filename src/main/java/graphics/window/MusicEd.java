@@ -1,7 +1,7 @@
 package graphics.window;
 
 
-import chart.ChartStaff;
+import chart.ChartNavigator;
 import graphics.elements.Box;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -13,8 +13,8 @@ import config.UConstants;
 import graphics.drawing.G;
 import graphics.drawing.Layer;
 import java.util.ArrayList;
-import javax.swing.JTextField;
 import llm.LLMFeed;
+import masses.Mass;
 import masses.MassList;
 import masses.glyph.Glyph;
 import masses.head.Head;
@@ -27,9 +27,7 @@ import masses.time.Time;
 import parser.JSONContainer;
 import parser.JSONParser;
 import reaction.action.ActionContainer;
-import reaction.action.Reaction;
 import reaction.capture.Area;
-import reaction.recognition.Gesture;
 import reaction.capture.*;
 
 import audio.SimpleMidiPlayer;
@@ -349,18 +347,41 @@ public class MusicEd extends WinApp {
       int x = 80;
       for(JSONContainer json : jsonList){
 
+        ChartNavigator chartNavigator = new ChartNavigator(); // Stores object indexes that point to the right item
+
         String theObject =  json.get("Object");
-        ArrayList<String> theObjectList = JSONParser.spliceNoteCode(theObject);
+        ArrayList<String> theObjectList = JSONParser.spliceNoteCode(theObject); // Separate code into different parts ex "Page-1","Sys-1"
         System.out.println(theObjectList);
         for(String s : theObjectList){
-          ArrayList<String> objAndNum = JSONParser.spliceObjectNameAndNumber(s);
+          ArrayList<String> objAndNum = JSONParser.spliceObjectNameAndNumber(s);  // Split item like "Page-1" into array [Page, 1]
+          chartNavigator.setItemNum(objAndNum.getFirst(),Integer.parseInt(objAndNum.get(1))); // Map item like "Page" to the chartNavigator
           System.out.println(objAndNum);
           //Function here that will use objAndNum to get  a particular object
-          if(objAndNum.getFirst().equals("Staff")){
-            int myValue = (Integer.parseInt(objAndNum.get(1))) -1;
-            Staff myStaff = MusicEd.PAGE.chartPage.sysList.getFirst().staffs.get(myValue).staff;
-            System.out.println(myStaff);
-          }
+        }
+        Page myPage;
+        Sys mySys;
+        Staff myStaff;
+        Head myNote;
+        try{
+          myPage= MusicEd.PAGE;
+          mySys = myPage.chartPage.sysList.get(chartNavigator.getItemNum("Sys")).sys;
+          myStaff = mySys.chartSys.staffs.get(chartNavigator.getItemNum("Staff")).staff;
+          myNote = myStaff.chartStaff.getHead(chartNavigator.getItemNum("Note"));
+
+        }catch(Exception e){
+          myPage = MusicEd.PAGE;
+          mySys = myPage.chartPage.sysList.getFirst().sys;
+          myStaff = mySys.chartSys.staffs.getFirst().staff;
+
+          e.printStackTrace();
+        }
+
+        if(chartNavigator.getHighestMentionedItem().equals("Staff")){
+          Mass myMass = myStaff;
+//            int myValue = (Integer.parseInt(objAndNum.get(1))) -1;
+//          Mass myMass = MusicEd.PAGE.chartPage.sysList.get(chartNavigator.getItemNum("Sys"))
+//              .staffs.get(chartNavigator.getItemNum("Staff")).staff;
+          System.out.println(myMass);
         }
 
 
@@ -378,7 +399,7 @@ public class MusicEd extends WinApp {
         for(JSONContainer jsonComm : jsonList){
           System.out.println(jsonComm);
           if(jsonComm.get("FuncName").equals("ADD_NOTE")){
-            Staff theStaff = MusicEd.PAGE.sysList.getFirst().staffs.getFirst();
+            Staff theStaff = myStaff;// MusicEd.PAGE.sysList.getFirst().staffs.getFirst();
             String note = JSONParser.spliceNoteCode(jsonComm.get("Parameters")).getFirst();
             int y = Staff.convertLetterToLine(note);
             y = theStaff.yOfLine(y);//G.rnd(919-89) + 89;

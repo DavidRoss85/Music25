@@ -48,7 +48,7 @@ public class Page extends Mass {
     margins.top = y;
     pageTop = new RelativeCoordinate(RelativeCoordinate.ZERO,y);
     RelativeCoordinate sysTop = new RelativeCoordinate(pageTop,0);
-    this.chartPage = new ChartPage();
+    this.chartPage = new ChartPage(this);
     sysList.add(new Sys(this,sysTop));
     updateMaxH();
 

@@ -8,5 +8,7 @@ public class ChartSys {
   public ArrayList<ChartStaff> staffs = new ArrayList<>();
   public Sys sys;
 
-  public ChartSys(Sys sys) {}
+  public ChartSys(Sys sys) {
+    this.sys = sys;
+  }
 }
