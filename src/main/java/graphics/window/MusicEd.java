@@ -329,8 +329,17 @@ public class MusicEd extends WinApp {
         WinApp.launch();
     }
 
-    private static LLMFeed llmFeed = new LLMFeed();
-    private static void testTextBox(String text){
+
+
+
+
+  private static LLMFeed llmFeed = new LLMFeed(); // Test LLM Feed Object
+
+  /**
+   * This method tests giving commands to the LLM from the text box on screen.
+   * @param text text passed from the user:
+   */
+  private static void testTextBox(String text){
 
       String objectsJSON = llmFeed.getObjectsJSON(text);
       System.out.println(objectsJSON);
@@ -392,6 +401,7 @@ public class MusicEd extends WinApp {
         if(command==null) continue;
 
         System.out.println("Execution List:");
+        //REPLACE NEXT LINE WITH FUNCTION DESCRIPTIONS EMBEDDED IN ITEM:
         String executeJSON = llmFeed.getExecuteJSON(command,UConstants.functionDescriptions);
         System.out.println(executeJSON);
 
@@ -425,10 +435,46 @@ public class MusicEd extends WinApp {
             PANEL.repaint();
           }
 
+          /**** NOTES ON HOW ALL OF THE ABOVE WORKS ***
+           * Above tests the LLM's ability to take a string of text given by the user,
+           * derive the music item that needs to be targeted and then generate a series of
+           * JSON objects which can be interpreted by the program to perform a specific
+           * action on that music item.
+           *
+           * The user first enters text
+           * That text is then passed to the LLM's getObjectJSON() method which returns
+           * a String in JSON format. This SHOULD contain an array with several objects containing
+           * an "Object" which contains an encoded string that points to a specific music item
+           * (Ex. "Page-1|Sys-1|Staff-2") and a "Rest" which contains the rest of the  instruction
+           * (Ex. "Add the note A with duration 4").
+           *
+           * The "Object" is passed to the JSONParser spliceCode and splicObjectNameAndNumber methods
+           * which create a series of ArrayLists with the Object name (Ex. "Page") and the number.
+           * These are stored in a ChartNavigator object, which keeps track of which page, sys, note
+           * etc that is being targeted.
+           *
+           * The "Rest" is passed back to the LLM's getExecuteJSON() method to create yet another
+           * set of JSON items that correspond to a specific action to take on the object. Please
+           * note that a unique set of commands and descriptions can be passed to the getExecuteJSON()
+           * which can help the LLM best choose which action string and parameters to use.
+           *
+           * Once these are separated, they can now be placed into an ActionContainer object which
+           * can be passed to the specified music items doAction() method which will execute
+           * the task based on the code in the object.
+           *
+           * DEMO works... Now to extrapolate, and clean up. One problem to overcome is the selecting
+           * of music items. The LLM has a tendency to get names and objects wrong since it merely
+           * iterprets what commands to give. It cannot see what is on the sheet and as a result,
+           * checks must be put in place to ensure a non valid item is specified or the wrong item
+           * is specified.
+           */
+
 
 
         }
       }
+
+
 
 //      89 40 36 23
 //      311 74 17 14
