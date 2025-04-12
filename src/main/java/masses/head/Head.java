@@ -144,7 +144,10 @@ public class Head extends Mass implements Comparable<Head> {
 
   private void stemHead(ActionContainer args) {
 
-    int x = args.getBox().xM(), y1 = args.getBox().yL(), y2 = args.getBox().yH();
+    int x = args.getBox().xM(),
+        y1 = args.getBox().yL(),
+        y2 = args.getBox().yH();
+
     Staff staff = Head.this.staff;
     Time t = Head.this.time;
     int W = Head.this.w();

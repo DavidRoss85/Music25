@@ -372,6 +372,7 @@ public class MusicEd extends WinApp {
           myPage = MusicEd.PAGE;
           mySys = myPage.chartPage.sysList.getFirst().sys;
           myStaff = mySys.chartSys.staffs.getFirst().staff;
+          myNote = myStaff.chartStaff.getHead(chartNavigator.getItemNum("Note"));
 
           e.printStackTrace();
         }
@@ -398,6 +399,8 @@ public class MusicEd extends WinApp {
 
         for(JSONContainer jsonComm : jsonList){
           System.out.println(jsonComm);
+
+          //Test an add note command
           if(jsonComm.get("FuncName").equals("ADD_NOTE")){
             Staff theStaff = myStaff;// MusicEd.PAGE.sysList.getFirst().staffs.getFirst();
             String note = JSONParser.spliceNoteCode(jsonComm.get("Parameters")).getFirst();
@@ -409,7 +412,21 @@ public class MusicEd extends WinApp {
             ActionContainer action = new ActionContainer("ADD_NEW_HEAD",box, null);
             theStaff.doAction(action);
             PANEL.repaint();
+
+            //Test a stem action on a note
+          }else if(jsonComm.get("FuncName").equals("ADD_NEW_STEM")){
+            Head theHead = myNote;
+            int stemX = theHead.x()+ theHead.w();
+            int stemY = theHead.y() - 10;
+            int stemH = theHead.y() + 10;
+            Box box = new Box(stemX,stemY,0,stemH);
+            ActionContainer action = new ActionContainer("ADD_NEW_STEM",box, null);
+            theHead.doAction(action);
+            PANEL.repaint();
           }
+
+
+
         }
       }
 
