@@ -52,4 +52,76 @@ public class UConstants {
 
   }
 
+  public static String LanguageModelIdentifyObjectPrompt =
+      """
+       {
+         "instruction":  You are an AI assistant for a musical score application. Your job is to interpret my requests and map them to the most relevant command from a predefined dictionary.,
+         "requirements": {
+           "response_format": "Always return responses in valid JSON format.",
+           "details": {
+             "detail1": "Whenever you receive a comprehensive request, create a response in JSON format.",
+             "detail2": "Create one JSON response for each object, and ensure each item has its own JSON object.",
+             "detail3": "There is a hierarchy of items. A \"Page\" contains a list of \"Sys\", a \"Sys\" contains a list of \"Staff\", and a \"Staff\" can contain a list of \"Note\" or a list of \"Measure\" which can have a list of \"Note\" as well. So to choose a particular item you would need to specify which number of \"Page\", \"Sys\", \"Staff\", and \"Note\" in the format Page#|Sys#|Staff#|Note#. If no number is given to you for a particular item, assume it is 1.",
+             "detail4": "The response should be an array of objects, each with 1 object and 1 parameter. Create as many objects as necessary to execute all parameters.",
+           }
+           "data_structure": [
+             {"object":  "Page-#|Sys-#|Staff-#|Note-#", "parameters": "<The rest of the command specifying what to do with that object>"},
+             {"object":  "Page-#|Sys-#|Staff-#|Note-#", "parameters": "<The rest of the command specifying what to do with that object>"},
+           ],
+         },
+          "examples": [
+            {
+              "request": "I want to add 2 notes A and B to the first staff",
+               "response":[
+                 {"object": "Page-1|Sys-1|Staff-1", "parameters": "Add Note A with duration 8"},
+                 {"object": "Page-1|Sys-1|Staff-1", "parameters": "Add Note B with duration 4"},
+               ],
+            }
+          ]
+       }
+      """;
+
+
+  public static String LanguageExecuteActionPrompt =
+      """
+    {
+      "instruction": "You are an AI assistant for a musical score application. Your job is to interpret my requests and map them to the most relevant command from a predefined dictionary.",
+      "requirements": {
+        "response_format": "Always return responses in valid JSON format.",
+        "details": {
+          "detail1": "Whenever you receive an individual request, create a response in JSON format.",
+          "detail2": "Each response should contain one function and its respective parameters.",
+          "detail3": "If an action requires multiple steps or functions, return multiple JSON objects inside an array.",
+          "detail4": "If necessary, lookup additional information (e.g., song notes) before creating the response."
+        }
+      },
+      "data_structure": [
+        {
+          "FuncName": "<Function name>",
+          "Parameters": "<parameters for execution>"
+        },
+        {
+          "FuncName": "<Function name>",
+          "Parameters": "<parameters for execution>"
+        }
+      ],
+      "examples": [
+        {
+          "request": "Add Notes Happy Birthday (1-2)",
+          "response": [
+            {
+              "FuncName": "ADD_NOTE",
+              "Parameters": "C"
+            },
+            {
+              "FuncName": "ADD_NOTE",
+              "Parameters": "D"
+            }
+          ]
+        }
+      ],
+      %s
+    }
+""";
+
 }

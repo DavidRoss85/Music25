@@ -358,7 +358,7 @@ public class MusicEd extends WinApp {
 
         ChartNavigator chartNavigator = new ChartNavigator(); // Stores object indexes that point to the right item
 
-        String theObject =  json.get("Object");
+        String theObject =  json.get("object");
         ArrayList<String> theObjectList = JSONParser.spliceNoteCode(theObject); // Separate code into different parts ex "Page-1","Sys-1"
         System.out.println(theObjectList);
         for(String s : theObjectList){
@@ -397,7 +397,7 @@ public class MusicEd extends WinApp {
 
         //--------------------------------------------
 
-        String command = json.get("Rest");
+        String command = json.get("parameters");
         if(command==null) continue;
 
         System.out.println("Execution List:");

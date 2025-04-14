@@ -40,6 +40,7 @@ public class JSONParser {
     try {
       ObjectMapper objectMapper = new ObjectMapper();
       JsonNode rootNode = objectMapper.readTree(jsonString);
+      rootNode = rootNode.get("response");
 
       if(rootNode.isArray()){
         // Iterate through JSON array and extract each item into JSONContainers
