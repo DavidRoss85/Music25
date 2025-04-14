@@ -22,17 +22,7 @@ public class JSONParser {
 
 
   public static ArrayList<JSONContainer> extractJSONCommands(String jsonString){
-//    jsonString = "["
-//        + "{\"ObjectType\": \"Staff\", \"ObjectNo\": \"1\", \"Rest\": \"Add Note A\"},"
-//        + "{\"ObjectType\": \"Staff\", \"ObjectNo\": \"1\", \"Rest\": \"Add Note B\"},"
-//        + "{\"ObjectType\": \"Staff\", \"ObjectNo\": \"1\", \"Rest\": \"Add Note C\"},"
-//        + "{\"ObjectType\": \"Staff\", \"ObjectNo\": \"3\", \"Rest\": \"Remove Note 8\"},"
-//        + "{\"ObjectType\": \"Staff\", \"ObjectNo\": \"3\", \"Rest\": \"Remove Note 1\"},"
-//        + "{\"ObjectType\": \"Staff\", \"ObjectNo\": \"3\", \"Rest\": \"Add Notes Fur Elise 1-8\"}"
-//        + "]";
-
-
-    jsonString = fixMalformedJSON(jsonString); // Fix certain malformed JSON Strings
+//    jsonString = fixMalformedJSON(jsonString); // Fix certain malformed JSON Strings
 
     // List to store extracted objects
     ArrayList<JSONContainer> JSONCommands = new ArrayList<>();
