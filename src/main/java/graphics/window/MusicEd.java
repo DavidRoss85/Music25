@@ -340,7 +340,10 @@ public class MusicEd extends WinApp {
    * @param text text passed from the user:
    */
   private static void testTextBox(String text){
-
+      System.out.println("*************************************\n");
+      System.out.println("New Command:");
+      System.out.println(text +"\n");
+      System.out.println("***************************************\n");
       String objectsJSON = llmFeed.getObjectsJSON(text);
       System.out.println(objectsJSON);
 //      String executeJSON = llmFeed.getExecuteJSON(objectsJSON,UConstants.functionDescriptions);
@@ -402,6 +405,7 @@ public class MusicEd extends WinApp {
 
         System.out.println("Execution List:");
         //REPLACE NEXT LINE WITH FUNCTION DESCRIPTIONS EMBEDDED IN ITEM:
+        //Feed the instruction and list of commands to LLM and return a JSON object with new instructions:
         String executeJSON = llmFeed.getExecuteJSON(command,UConstants.functionDescriptions);
         System.out.println(executeJSON);
 
@@ -464,7 +468,7 @@ public class MusicEd extends WinApp {
            *
            * DEMO works... Now to extrapolate, and clean up. One problem to overcome is the selecting
            * of music items. The LLM has a tendency to get names and objects wrong since it merely
-           * iterprets what commands to give. It cannot see what is on the sheet and as a result,
+           * interprets what commands to give. It cannot see what is on the sheet and as a result,
            * checks must be put in place to ensure a non valid item is specified or the wrong item
            * is specified.
            */

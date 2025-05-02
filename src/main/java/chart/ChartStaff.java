@@ -6,6 +6,30 @@ import masses.staff.Staff;
 
 public class ChartStaff extends ChartMass{
 
+  //Chart Staff will need it's own index marking the "time" marker for each item on the staff.
+  // i.e. masses belonging to the Staff will be auto adjusted according to the staff's preset
+  // positions.
+  // Should this index be an array that holds the item belonging there?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   public ArrayList<ChartMeasure> measures = new ArrayList<>();
   private ArrayList<Head> headList = new ArrayList<>();
   public Staff staff;

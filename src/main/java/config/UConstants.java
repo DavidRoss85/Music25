@@ -35,20 +35,20 @@ public class UConstants {
     functionDescriptions.put("ADD_NEW_STEM", "Adds a stem to a musical note. Notes are sometimes referred to as Heads."
         + "The Parameters for this command is either UP or DOWN."); // Parameters should be in format {"Note": "<Note>", "Duration": "<Length>" }
 
-    functionDescriptions.put("IMPORT_MUSIC", "Imports all or most of the notes from a song to the musical score sheet.");
-    functionDescriptions.put("LOWER", "Lowers the pitch of the selected note or group of notes by a predefined interval.");
-    functionDescriptions.put("RAISE", "Raises the pitch of the selected note or group of notes by a predefined interval.");
-    functionDescriptions.put("DELETE_NOTE", "Removes a specific note from the musical score sheet.");
-    functionDescriptions.put("UNDO", "Reverts the last performed actionName on the musical score sheet.");
-    functionDescriptions.put("REDO", "Restores the last undone actionName on the musical score sheet.");
-    functionDescriptions.put("CHANGE_TEMPO", "Adjusts the speed of the musical score to a new beats-per-minute value.");
-    functionDescriptions.put("APPLY_ARTICULATION", "Adds articulation marks to selected notes, such as staccato or legato.");
-    functionDescriptions.put("TRANSPOSITION", "Shifts all notes in the score up or down by a given number of semitones.");
-    functionDescriptions.put("EXPORT_PDF", "Exports the musical score as a PDF file for printing or sharing.");
-    functionDescriptions.put("SAVE_PROJECT", "Saves the current musical score and all changes to a file.");
-    functionDescriptions.put("PLAYBACK", "Plays the musical score using MIDI synthesis.");
-    functionDescriptions.put("FIND_NOTE", "Locate the specified note in the musical score sheet to perform actions on it. You must do this before you can take actionName on any note.");
-    functionDescriptions.put("GET_ACTIONS", "Gets the list of actions available to the object.");
+//    functionDescriptions.put("IMPORT_MUSIC", "Imports all or most of the notes from a song to the musical score sheet.");
+//    functionDescriptions.put("LOWER", "Lowers the pitch of the selected note or group of notes by a predefined interval.");
+//    functionDescriptions.put("RAISE", "Raises the pitch of the selected note or group of notes by a predefined interval.");
+//    functionDescriptions.put("DELETE_NOTE", "Removes a specific note from the musical score sheet.");
+//    functionDescriptions.put("UNDO", "Reverts the last performed actionName on the musical score sheet.");
+//    functionDescriptions.put("REDO", "Restores the last undone actionName on the musical score sheet.");
+//    functionDescriptions.put("CHANGE_TEMPO", "Adjusts the speed of the musical score to a new beats-per-minute value.");
+//    functionDescriptions.put("APPLY_ARTICULATION", "Adds articulation marks to selected notes, such as staccato or legato.");
+//    functionDescriptions.put("TRANSPOSITION", "Shifts all notes in the score up or down by a given number of semitones.");
+//    functionDescriptions.put("EXPORT_PDF", "Exports the musical score as a PDF file for printing or sharing.");
+//    functionDescriptions.put("SAVE_PROJECT", "Saves the current musical score and all changes to a file.");
+//    functionDescriptions.put("PLAYBACK", "Plays the musical score using MIDI synthesis.");
+//    functionDescriptions.put("FIND_NOTE", "Locate the specified note in the musical score sheet to perform actions on it. You must do this before you can take actionName on any note.");
+//    functionDescriptions.put("GET_ACTIONS", "Gets the list of actions available to the object.");
 
   }
 
